@@ -121,6 +121,36 @@ public class ScaleView extends View {
     private int mHighFrequency = 10;
 
     /**
+     * 底线颜色
+     */
+    private int mBaseLineColor = R.color.colorPrimaryDark;
+
+    /**
+     * 高刻度颜色
+     */
+    private int mHighScaleColor = R.color.colorEA4335;
+
+    /**
+     * 中刻度颜色
+     */
+    private int mMiddleScaleColor = R.color.color3379F6;
+
+    /**
+     * 低刻度颜色
+     */
+    private int mLowScaleColor = R.color.colorDEB8B1;
+
+    /**
+     * 数字颜色
+     */
+    private int mNumColor = R.color.colorPrimary;
+
+    /**
+     * 指针颜色
+     */
+    private int mPointerColor = R.color.colorAccent;
+
+    /**
      * 字体是否要绘制在上面
      */
     private boolean mFontIsTop;
@@ -330,15 +360,15 @@ public class ScaleView extends View {
 //        mCanvas.drawLines(mPoints, mPaint);
 
         //绘制低刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorDEB8B1));
+        mPaint.setColor(ContextCompat.getColor(getContext(), mLowScaleColor));
         mPaint.setStrokeWidth(mLowScaleWidth);
         mCanvas.drawLines(mPointsLow, mPaint);
         //绘制中刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorDEB8B1));
+        mPaint.setColor(ContextCompat.getColor(getContext(), mMiddleScaleColor));
         mPaint.setStrokeWidth(mMiddleScaleWidth);
         mCanvas.drawLines(mPointsMiddle, mPaint);
         //绘制高刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.color3379F6));
+        mPaint.setColor(ContextCompat.getColor(getContext(), mHighScaleColor));
         mPaint.setStrokeWidth(mHighScaleWidth);
         mCanvas.drawLines(mPointsHigh, mPaint);
     }
@@ -352,7 +382,7 @@ public class ScaleView extends View {
      */
     private void drawPointer() {
         //设置颜色
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        mPaint.setColor(ContextCompat.getColor(getContext(), mPointerColor));
         //设置线条宽度
         mPaint.setStrokeWidth(mPointerWidth);
 
@@ -372,7 +402,7 @@ public class ScaleView extends View {
         //设置文字居中
         mPaint.setTextAlign(Paint.Align.CENTER);
         //设置文字颜色
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        mPaint.setColor(ContextCompat.getColor(getContext(), mNumColor));
     }
 
     /**
@@ -380,7 +410,7 @@ public class ScaleView extends View {
      */
     private void drawBaseLine() {
         //设置颜色
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        mPaint.setColor(ContextCompat.getColor(getContext(), mBaseLineColor));
         //设置线条宽度
         mPaint.setStrokeWidth(mBaseLineWidth);
 
