@@ -33,7 +33,7 @@ public class ScaleView extends View {
     /**
      * 当前刻度
      */
-    private float mNowIndex = 51f;
+    private float mNowIndex = 9f;
 
     /**
      * 每格刻度的值
@@ -258,20 +258,22 @@ public class ScaleView extends View {
 
 
         //当前绘制的x坐标
-        int mIndex = mPointerPosition;
+        int mIndex = mPointerPosition - mRealLeftLineCount * mLineInterval;
         //找出各个刻度的数量
         for (int i = 0; i < mRealLeftLineCount; i++) {
-            mIndex -= mLineInterval;
-            if (((mPointerPosition - mIndex) / mHighFrequency) % mHighFrequency == 0) {
+            float mNowIndexValue = mNowIndex - ((mPointerPosition - mIndex) / mLineInterval * mScaleValue);
+            if (mNowIndexValue % mHighFrequency == 0) {
                 //高刻度
                 mHighLength = i + 1;
-            } else if (((mPointerPosition - mIndex) / mMiddleFrequency) % mMiddleFrequency == 0){
+            } else if (mNowIndexValue % mMiddleFrequency == 0){
                 //中刻度
                 mMiddleLength += i + 1;
             } else {
                 //低刻度
                 mLowLength += i + 1;
             }
+            //每次绘制完一条线就加一次间距
+            mIndex += mLineInterval;
         }
 
         float[] mPointsHigh = new float[mHighLength * 4];
@@ -403,6 +405,9 @@ public class ScaleView extends View {
         mPaint.setTextAlign(Paint.Align.CENTER);
         //设置文字颜色
         mPaint.setColor(ContextCompat.getColor(getContext(), mNumColor));
+
+
+
     }
 
     /**
