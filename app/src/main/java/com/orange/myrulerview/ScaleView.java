@@ -33,7 +33,7 @@ public class ScaleView extends View {
     /**
      * 当前刻度
      */
-    private float mNowIndex = 15f;
+    private float mNowIndex = 51f;
 
     /**
      * 每格刻度的值
@@ -234,13 +234,13 @@ public class ScaleView extends View {
             mIndex -= mLineInterval;
             if (((mPointerPosition - mIndex) / mHighFrequency) % mHighFrequency == 0) {
                 //高刻度
-                mHighLength += 1;
+                mHighLength = i + 1;
             } else if (((mPointerPosition - mIndex) / mMiddleFrequency) % mMiddleFrequency == 0){
                 //中刻度
-                mMiddleLength += 1;
+                mMiddleLength += i + 1;
             } else {
                 //低刻度
-                mLowLength += 1;
+                mLowLength += i + 1;
             }
         }
 
@@ -250,7 +250,8 @@ public class ScaleView extends View {
 
 
         //重置临时坐标--从左往右
-        int mStarIndex = mPointerPosition;
+        //求出最左边的点
+        int mStarIndex = mPointerPosition - mRealLeftLineCount * mLineInterval;
 
         //各个线的起始下标
         int mTypeIndexHigh = 0;
@@ -260,11 +261,12 @@ public class ScaleView extends View {
         //绘制所有的线
         for (int i = 0; i < mRealLeftLineCount; i++) {
 
-            //每次绘制完一条线就减一次间距
-            mStarIndex -= mLineInterval;
-
             //每条线画确定4个坐标点
-            if (((mPointerPosition - mStarIndex) / mHighFrequency) % mHighFrequency == 0) {
+            //下标差距
+            //根据下标算差距值
+            float mNowIndexValue = mNowIndex - ((mPointerPosition - mStarIndex) / mLineInterval * mScaleValue);
+
+            if (mNowIndexValue % mHighFrequency == 0) {
                 //高刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -282,7 +284,7 @@ public class ScaleView extends View {
                     }
                     mTypeIndexHigh ++;
                 }
-            } else if (((mPointerPosition - mStarIndex) / mMiddleFrequency) % mMiddleFrequency == 0){
+            } else if (mNowIndexValue % mMiddleFrequency == 0){
                 //中刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -319,6 +321,9 @@ public class ScaleView extends View {
                     mTypeIndexLow ++;
                 }
             }
+
+            //每次绘制完一条线就加一次间距
+            mStarIndex += mLineInterval;
 
         }
         //画刻度线
