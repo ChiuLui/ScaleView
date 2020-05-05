@@ -31,7 +31,7 @@ public class ScaleView extends View {
     /**
      * 当前刻度
      */
-    private int mNowIndex = 50;
+    private int mNowIndex = 10;
 
     /**
      * 每格刻度的值
@@ -389,6 +389,125 @@ public class ScaleView extends View {
 
     private void drawRightLine() {
 
+        //计算装下标的数组大小
+        int mHighLength = 0;
+        int mMiddleLength = 0;
+        int mLowLength = 0;
+
+        //当前绘制的x坐标
+        int mIndex = mPointerPosition + mRealRightLineCount * mLineInterval;
+        //找出各个刻度的数量
+        for (int i = 0; i < mRealRightLineCount; i++) {
+            int mNowIndexValue = getNowIndexValue(mIndex);
+            if (mNowIndexValue % mHighFrequency == 0) {
+                //高刻度
+                mHighLength = mHighLength + 1;
+            } else if (mNowIndexValue % mMiddleFrequency == 0){
+                //中刻度
+                mMiddleLength = mMiddleLength + 1;
+            } else {
+                //低刻度
+                mLowLength = mLowLength + 1;
+            }
+            //每次绘制完一条线就加一次间距
+            mIndex -= mLineInterval;
+        }
+
+        //创建装下标的数组
+        mPointsHighRight = new float[mHighLength * 4];
+        mPointsMiddleRight = new float[mMiddleLength * 4];
+        mPointsLowRight = new float[mLowLength * 4];
+
+        //重置临时坐标--从右往左
+        //求出最右边的点
+        int mStarIndex = mPointerPosition + mRealRightLineCount * mLineInterval;
+
+        //各个线的起始下标
+        int mTypeIndexHigh = 0;
+        int mTypeIndexMiddle = 0;
+        int mTypeIndexLow = 0;
+
+        //绘制所有的线
+        for (int i = 0; i < mRealRightLineCount; i++) {
+
+            //每条线画确定4个坐标点
+            //下标差距
+            //根据下标算差距值
+            int mNowIndexValue = getNowIndexValue(mStarIndex);
+
+            if (mNowIndexValue % mHighFrequency == 0) {
+                //高刻度
+                for (int j = 0; j < 4; j++) {
+                    if (j % 2 == 0) {
+                        //奇数--确定x
+                        mPointsHighRight[mTypeIndexHigh] = mStarIndex;
+                    } else {
+                        //偶数--确定y
+                        if (j == 1) {
+                            //y轴起点--下端
+                            mPointsHighRight[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                        } else {
+                            //y轴终点--上端
+                            mPointsHighRight[mTypeIndexHigh] = mPointerMarginTop + mHighPointerMarginTop;
+                        }
+                    }
+                    mTypeIndexHigh ++;
+                }
+            } else if (mNowIndexValue % mMiddleFrequency == 0){
+                //中刻度
+                for (int j = 0; j < 4; j++) {
+                    if (j % 2 == 0) {
+                        //奇数--确定x
+                        mPointsMiddleRight[mTypeIndexMiddle] = mStarIndex;
+                    } else {
+                        //偶数--确定y
+                        if (j == 1) {
+                            //y轴起点--下端
+                            mPointsMiddleRight[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                        } else {
+                            //y轴终点--上端
+                            mPointsMiddleRight[mTypeIndexMiddle] = mPointerMarginTop + mMiddlePointerMarginTop;
+                        }
+                    }
+                    mTypeIndexMiddle ++;
+                }
+            } else {
+                //低刻度
+                for (int j = 0; j < 4; j++) {
+                    if (j % 2 == 0) {
+                        //奇数--确定x
+                        mPointsLowRight[mTypeIndexLow] = mStarIndex;
+                    } else {
+                        //偶数--确定y
+                        if (j == 1) {
+                            //y轴起点--下端
+                            mPointsLowRight[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                        } else {
+                            //y轴终点--上端
+                            mPointsLowRight[mTypeIndexLow] = mPointerMarginTop + mLowPointerMarginTop;
+                        }
+                    }
+                    mTypeIndexLow ++;
+                }
+            }
+
+            //每次绘制完一条线就减一次间距
+            mStarIndex -= mLineInterval;
+
+        }
+
+        //绘制低刻度线
+        mPaint.setColor(ContextCompat.getColor(getContext(), mLowScaleColor));
+        mPaint.setStrokeWidth(mLowScaleWidth);
+        mCanvas.drawLines(mPointsLowRight, mPaint);
+        //绘制中刻度线
+        mPaint.setColor(ContextCompat.getColor(getContext(), mMiddleScaleColor));
+        mPaint.setStrokeWidth(mMiddleScaleWidth);
+        mCanvas.drawLines(mPointsMiddleRight, mPaint);
+        //绘制高刻度线
+        mPaint.setColor(ContextCompat.getColor(getContext(), mHighScaleColor));
+        mPaint.setStrokeWidth(mHighScaleWidth);
+        mCanvas.drawLines(mPointsHighRight, mPaint);
     }
 
     /**
@@ -427,10 +546,28 @@ public class ScaleView extends View {
 
         onDrawLeftNum(y);
         onDrawRightNum(y);
+        onDrawCenter(y);
+    }
+
+    /**
+     * 绘制中间
+     */
+    private void onDrawCenter(float y) {
+        //当中间下标为大刻度时才绘制，否则不绘制
+        if (mNowIndex % mHighFrequency == 0) {
+            mCanvas.drawText(String.valueOf(mNowIndex), mPointerPosition, y, mPaint);
+        }
     }
 
     private void onDrawRightNum(float y) {
-
+        //从刻度线数组或取到文字的下标
+        for (int i = 0; i < mPointsHighRight.length; i++) {
+            if (i % 4 == 0){
+                int mNowIndexValue = getNowIndexValue((int)mPointsHighRight[i]);
+                float x = mPointsHighRight[i];
+                mCanvas.drawText(String.valueOf(mNowIndexValue), x, y, mPaint);
+            }
+        }
     }
 
     private void onDrawLeftNum(float y) {
@@ -450,7 +587,11 @@ public class ScaleView extends View {
      * @return
      */
     private int getNowIndexValue(int v) {
-        return mNowIndex - ((mPointerPosition - v) / mLineInterval * mScaleValue);
+        if(v < mPointerPosition){
+            return mNowIndex - ((mPointerPosition - v) / mLineInterval * mScaleValue);
+        } else {
+            return mNowIndex + ((v - mPointerPosition) / mLineInterval * mScaleValue);
+        }
     }
 
     /**
@@ -461,8 +602,6 @@ public class ScaleView extends View {
         mPaint.setColor(ContextCompat.getColor(getContext(), mBaseLineColor));
         //设置线条宽度
         mPaint.setStrokeWidth(mBaseLineWidth);
-
-//        mCanvas.drawLine(mLeftMarginLeft, mHeight - mBaseLineMarginBottom, mWidth - mRightMarginRight, mHeight - mBaseLineMarginBottom, mPaint);
 
         //算出左边和右边最多画几条
         mLeftLineCount = (mPointerPosition - mLeftMarginLeft) / mLineInterval;
