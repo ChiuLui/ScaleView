@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -31,7 +33,7 @@ public class ScaleView extends View {
     /**
      * 当前刻度
      */
-    private int mNowIndex = 10;
+    private int mNowIndex = 50;
 
     /**
      * 每格刻度的值
@@ -208,6 +210,11 @@ public class ScaleView extends View {
     private float[] mPointsMiddleRight;
     private float[] mPointsLowRight;
 
+    float mPosX = 0;
+    float mCurPosX = 0;
+    float mCurPosY = 0;
+    float mCurPosX_ing = 0;
+
     private Canvas mCanvas;
     private Paint mPaint = new Paint();
 
@@ -279,10 +286,10 @@ public class ScaleView extends View {
             if (mNowIndexValue % mHighFrequency == 0) {
                 //高刻度
                 mHighLength = mHighLength + 1;
-            } else if (mNowIndexValue % mMiddleFrequency == 0){
+            } else if (mNowIndexValue % mMiddleFrequency == 0) {
                 //中刻度
                 mMiddleLength = mMiddleLength + 1;
-            } else {
+            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue > mMinIndex) {
                 //低刻度
                 mLowLength = mLowLength + 1;
             }
@@ -348,7 +355,7 @@ public class ScaleView extends View {
                     }
                     mTypeIndexMiddle ++;
                 }
-            } else {
+            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue > mMinIndex)  {
                 //低刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -405,7 +412,7 @@ public class ScaleView extends View {
             } else if (mNowIndexValue % mMiddleFrequency == 0){
                 //中刻度
                 mMiddleLength = mMiddleLength + 1;
-            } else {
+            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue < mMaxIndex)  {
                 //低刻度
                 mLowLength = mLowLength + 1;
             }
@@ -471,7 +478,7 @@ public class ScaleView extends View {
                     }
                     mTypeIndexMiddle ++;
                 }
-            } else {
+            } else  if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue < mMaxIndex) {
                 //低刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -598,6 +605,9 @@ public class ScaleView extends View {
      * 绘制底线
      */
     private void drawBaseLine() {
+        //重置真实需要画的刻度数量
+        mRealLeftLineCount = 0;
+        mRealRightLineCount = 0;
         //设置颜色
         mPaint.setColor(ContextCompat.getColor(getContext(), mBaseLineColor));
         //设置线条宽度
@@ -637,6 +647,52 @@ public class ScaleView extends View {
         int mRightX = (mRealRightLineCount * mLineInterval) + mPointerPosition;
         mCanvas.drawLine(mLeftX, mHeight - mBaseLineMarginBottom, mRightX, mHeight - mBaseLineMarginBottom, mPaint);
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                mPosX = event.getX();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mCurPosX = event.getX();
+                mCurPosY = event.getY();
+
+                Log.e("TAG", "mCurPosX =" + mCurPosX);
+                Log.e("TAG", "mCurPosY =" + mCurPosY);
+
+                //限制触摸范围
+                if (mCurPosX < 0 || mCurPosX > mWidth || mCurPosY < 0 || mCurPosY > mHeight){
+                    return true;
+                }
+
+                //判断向左滑还是向右滑
+                if (mCurPosX - mPosX > 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
+                    Log.e("TAG", "向右" + mCurPosX);
+                    mNowIndex -= mScaleValue;
+                } else if (mCurPosX - mPosX < 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
+                    Log.e("TAG", "向左" + mCurPosX);
+                    mNowIndex += mScaleValue;
+                }
+
+                //判断是否刷新
+                if (mNowIndex < mMinIndex){
+                    mNowIndex = mMinIndex;
+                } else if (mNowIndex > mMaxIndex){
+                    mNowIndex = mMaxIndex;
+                } else {
+                    invalidate();
+                    //记录上一次
+                    mCurPosX_ing = mCurPosX;
+                }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            default:
+        }
+        return true;
     }
 
     /**
