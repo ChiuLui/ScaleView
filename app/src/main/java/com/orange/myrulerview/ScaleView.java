@@ -165,6 +165,25 @@ public class ScaleView extends View {
      */
     private boolean mFontIsTop = true;
 
+    /**
+     * 刻度线位置
+     */
+    private ScalePosition mScalePosition = ScalePosition.BOTTOM;
+
+    private enum ScalePosition {
+        TOP, CENTER, BOTTOM
+    }
+
+    /**
+     * 显示的刻度数字比例：刻度 / 比例
+     */
+    private double mScaleScale = 10;
+
+    /**
+     * 滑动监听
+     */
+    private OnScaleChangeListener onScaleChangeListener;
+
     //------------------------------------------------上面是公共控制属性，下面是内部计算变量
 
     /**
@@ -245,11 +264,15 @@ public class ScaleView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.mCanvas = canvas;
-        //绘制
+        //初始化画笔
         initPaint();
+        //绘制底线
         drawBaseLine();
+        //绘制指针
         drawPointer();
+        //绘制刻度线
         drawScale();
+        //绘制数值
         drawNum();
     }
 
@@ -554,6 +577,9 @@ public class ScaleView extends View {
         onDrawLeftNum(y);
         onDrawRightNum(y);
         onDrawCenter(y);
+        if (onScaleChangeListener != null) {
+            onScaleChangeListener.OnChange(mNowIndex / mScaleScale);
+        }
     }
 
     /**
@@ -562,7 +588,7 @@ public class ScaleView extends View {
     private void onDrawCenter(float y) {
         //当中间下标为大刻度时才绘制，否则不绘制
         if (mNowIndex % mHighFrequency == 0) {
-            mCanvas.drawText(String.valueOf(mNowIndex), mPointerPosition, y, mPaint);
+            mCanvas.drawText(String.valueOf(mNowIndex / mScaleScale), mPointerPosition, y, mPaint);
         }
     }
 
@@ -572,7 +598,7 @@ public class ScaleView extends View {
             if (i % 4 == 0){
                 int mNowIndexValue = getNowIndexValue((int)mPointsHighRight[i]);
                 float x = mPointsHighRight[i];
-                mCanvas.drawText(String.valueOf(mNowIndexValue), x, y, mPaint);
+                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
             }
         }
     }
@@ -583,7 +609,7 @@ public class ScaleView extends View {
             if (i % 4 == 0){
                 int mNowIndexValue = getNowIndexValue((int)mPointsHighLeft[i]);
                 float x = mPointsHighLeft[i];
-                mCanvas.drawText(String.valueOf(mNowIndexValue), x, y, mPaint);
+                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
             }
         }
     }
@@ -696,10 +722,17 @@ public class ScaleView extends View {
     }
 
     /**
+     * 设置改变刻度回调监听
+     * @param onScaleChangeListener
+     */
+    public void setOnScaleChangeListener(OnScaleChangeListener onScaleChangeListener){
+        this.onScaleChangeListener = onScaleChangeListener;
+    }
+
+    /**
      * 改变监听
      */
     public interface OnScaleChangeListener{
-
         /**
          * 回调当前的刻度
          * @param index
