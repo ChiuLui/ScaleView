@@ -166,15 +166,6 @@ public class ScaleView extends View {
     private boolean mFontIsTop = true;
 
     /**
-     * 刻度线位置
-     */
-    private ScalePosition mScalePosition = ScalePosition.BOTTOM;
-
-    private enum ScalePosition {
-        TOP, CENTER, BOTTOM
-    }
-
-    /**
      * 显示的刻度数字比例：刻度 / 比例
      */
     private double mScaleScale = 10;
@@ -183,6 +174,20 @@ public class ScaleView extends View {
      * 滑动监听
      */
     private OnScaleChangeListener onScaleChangeListener;
+
+    /**
+     * 是否显示底线
+     */
+    private boolean isShowBaseLine = true;
+
+    /**
+     * 刻度线位置
+     */
+    private ScalePosition mScalePosition = ScalePosition.BOTTOM;
+
+    private enum ScalePosition {
+        TOP, CENTER, BOTTOM
+    }
 
     //------------------------------------------------上面是公共控制属性，下面是内部计算变量
 
@@ -713,8 +718,11 @@ public class ScaleView extends View {
         //中间指针到左右的距离
         int mLeftX = mPointerPosition - (mRealLeftLineCount * mLineInterval);
         int mRightX = (mRealRightLineCount * mLineInterval) + mPointerPosition;
-        mCanvas.drawLine(mLeftX, mHeight - mBaseLineMarginBottom, mRightX, mHeight - mBaseLineMarginBottom, mPaint);
-
+        if (isShowBaseLine) {
+            mCanvas.drawLine(mLeftX, mHeight - mBaseLineMarginBottom, mRightX, mHeight - mBaseLineMarginBottom, mPaint);
+        } else {
+            mBaseLineWidth = 0;
+        }
     }
 
     @Override
