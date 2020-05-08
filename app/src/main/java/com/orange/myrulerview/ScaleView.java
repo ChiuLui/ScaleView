@@ -96,19 +96,19 @@ public class ScaleView extends View {
     private int mFontMarginTop = 40;
 
     /**
-     * 低刻度的上边距
+     * 低刻度的边距
      */
-    private int mLowPointerMarginTop = 150;
+    private int mLowPointerMargin = 150;
 
     /**
-     * 中刻度的上边距
+     * 中刻度的边距
      */
-    private int mMiddlePointerMarginTop = 100;
+    private int mMiddlePointerMargin = 100;
 
     /**
-     * 高刻度的上边距
+     * 高刻度的边距
      */
-    private int mHighPointerMarginTop = 50;
+    private int mHighPointerMargin = 50;
 
     /**
      * 左边刻度与 View 左边的距离
@@ -294,6 +294,42 @@ public class ScaleView extends View {
         drawRightLine();
     }
 
+    /**
+     * 判断刻度线的边距
+     * @param isTopMargin true:上边距  false:下边距
+     * @param margin    边距值
+     * @return
+     */
+    private int getHighPointerMargin(boolean isTopMargin, int margin){
+        switch (mScalePosition){
+            case TOP:
+                if (isTopMargin){
+                    //上边距
+                    return 0;
+                } else {
+                    //下边距
+                    return margin;
+                }
+            case CENTER:
+                if (isTopMargin){
+                    //上边距
+                    return margin;
+                } else {
+                    //下边距
+                    return margin;
+                }
+            case BOTTOM:
+            default:
+                if (isTopMargin){
+                    //上边距
+                    return margin;
+                } else {
+                    //下边距
+                    return 0;
+                }
+        }
+    }
+
     private void drawLeftLine() {
 
         //计算装下标的数组大小
@@ -352,10 +388,12 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsHighLeft[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+//                            mPointsHighLeft[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                            mPointsHighLeft[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + mHighPointerMarginTop;
+//                            mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + mHighPointerMarginTop;
+                            mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
                     mTypeIndexHigh ++;
@@ -370,10 +408,12 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsMiddleLeft[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+//                            mPointsMiddleLeft[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                            mPointsMiddleLeft[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + mMiddlePointerMarginTop;
+//                            mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + mMiddlePointerMarginTop;
+                            mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
                     mTypeIndexMiddle ++;
@@ -388,10 +428,12 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsLowLeft[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+//                            mPointsLowLeft[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                            mPointsLowLeft[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + mLowPointerMarginTop;
+//                            mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + mLowPointerMarginTop;
+                            mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
                     mTypeIndexLow ++;
@@ -475,10 +517,10 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsHighRight[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                            mPointsHighRight[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsHighRight[mTypeIndexHigh] = mPointerMarginTop + mHighPointerMarginTop;
+                            mPointsHighRight[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
                     mTypeIndexHigh ++;
@@ -493,10 +535,10 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsMiddleRight[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                            mPointsMiddleRight[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsMiddleRight[mTypeIndexMiddle] = mPointerMarginTop + mMiddlePointerMarginTop;
+                            mPointsMiddleRight[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
                     mTypeIndexMiddle ++;
@@ -511,10 +553,10 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsLowRight[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
+                            mPointsLowRight[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsLowRight[mTypeIndexLow] = mPointerMarginTop + mLowPointerMarginTop;
+                            mPointsLowRight[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
                     mTypeIndexLow ++;
