@@ -234,10 +234,17 @@ public class ScaleView extends View {
     private float[] mPointsMiddleRight;
     private float[] mPointsLowRight;
 
+    //滑动
     float mPosX = 0;
     float mCurPosX = 0;
     float mCurPosY = 0;
     float mCurPosX_ing = 0;
+    /**
+     * 记录当前是向左滑还是向右滑
+     * 0:左滑
+     * 1：右滑
+     */
+    int mDirection = -1;
 
     private Canvas mCanvas;
     private Paint mPaint = new Paint();
@@ -739,17 +746,42 @@ public class ScaleView extends View {
                 Log.e("TAG", "mCurPosY =" + mCurPosY);
 
                 //限制触摸范围
-                if (mCurPosX < 0 || mCurPosX > mWidth || mCurPosY < 0 || mCurPosY > mHeight){
+                if ((mCurPosX < 0 || mCurPosX > mWidth || mCurPosY < 0 || mCurPosY > mHeight)
+                        //同时限制手指按压刷新
+                        || (mCurPosX == mCurPosX_ing)){
                     return true;
                 }
 
                 //判断向左滑还是向右滑
                 if (mCurPosX - mPosX > 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
                     Log.e("TAG", "向右" + mCurPosX);
-                    mNowIndex -= mScaleValue;
+                    mDirection = 1;
                 } else if (mCurPosX - mPosX < 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
                     Log.e("TAG", "向左" + mCurPosX);
-                    mNowIndex += mScaleValue;
+                    mDirection = 0;
+                }
+
+                //根据左滑还是右滑判断变向
+                if (mDirection == 0){
+                    //当前为向左滑状态--mCurPosX递减
+                    if (mCurPosX > mCurPosX_ing) {
+                        Log.e("TAG", "------------------------换向右边" + mCurPosX);
+                        mPosX = mCurPosX_ing;
+                        mDirection = 1;
+                        mNowIndex -= mScaleValue;
+                    } else {
+                        mNowIndex += mScaleValue;
+                    }
+                } else if (mDirection == 1){
+                    //当前为向右滑状态--mCurPosX递增
+                    if (mCurPosX < mCurPosX_ing) {
+                        Log.e("TAG", "------------------------换向左边" + mCurPosX);
+                        mPosX = mCurPosX_ing;
+                        mDirection = 0;
+                        mNowIndex += mScaleValue;
+                    } else {
+                        mNowIndex -= mScaleValue;
+                    }
                 }
 
                 //判断是否刷新
@@ -765,6 +797,7 @@ public class ScaleView extends View {
 
                 break;
             case MotionEvent.ACTION_UP:
+                mDirection = -1;
                 break;
             default:
         }
