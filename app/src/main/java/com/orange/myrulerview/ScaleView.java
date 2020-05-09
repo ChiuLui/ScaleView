@@ -173,7 +173,7 @@ public class ScaleView extends View {
     /**
      * 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态
      */
-    private double mSlidingRatio = 1.5;
+    private double mSlidingRatio = 0.5;
 
     /**
      * 滑动监听
@@ -316,6 +316,8 @@ public class ScaleView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         //设置抗锯齿
         mPaint.setAntiAlias(true);
+        // 线帽，即画的线条两端是否带有圆角，SQUARE，矩形
+        mPaint.setStrokeCap( Paint.Cap.SQUARE);
     }
 
     /**
@@ -420,11 +422,9 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-//                            mPointsHighLeft[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
                             mPointsHighLeft[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
                         } else {
                             //y轴终点--上端
-//                            mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + mHighPointerMarginTop;
                             mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
@@ -440,11 +440,9 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-//                            mPointsMiddleLeft[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
                             mPointsMiddleLeft[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
                         } else {
                             //y轴终点--上端
-//                            mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + mMiddlePointerMarginTop;
                             mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
@@ -460,11 +458,9 @@ public class ScaleView extends View {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-//                            mPointsLowLeft[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth;
                             mPointsLowLeft[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
                         } else {
                             //y轴终点--上端
-//                            mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + mLowPointerMarginTop;
                             mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
@@ -771,6 +767,9 @@ public class ScaleView extends View {
                         || (mCurPosX == mCurPosX_ing)){
                     return true;
                 }
+
+                // TODO: 2020/5/9 处理滑动冲突待实现
+
 
                 //判断向左滑还是向右滑
                 if (mCurPosX - mPosX > 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
