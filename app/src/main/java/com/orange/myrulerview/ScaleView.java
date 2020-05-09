@@ -173,7 +173,7 @@ public class ScaleView extends View {
     /**
      * 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态
      */
-    private double mSlidingRatio = 0.5;
+    private double mSlidingRatio = 1;
 
     /**
      * 滑动监听
@@ -240,9 +240,13 @@ public class ScaleView extends View {
     private float[] mPointsLowRight;
 
     /**
-     * 记录手指点下
+     * 记录手指点下X
      */
     float mPosX = 0;
+    /**
+     * 记录手指点下Y
+     */
+    float mPosY = 0;
     /**
      * 记录当前手指滑动x
      */
@@ -753,6 +757,7 @@ public class ScaleView extends View {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 mPosX = event.getX();
+                mPosY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 mCurPosX = event.getX();
@@ -768,8 +773,10 @@ public class ScaleView extends View {
                     return true;
                 }
 
-                // TODO: 2020/5/9 处理滑动冲突待实现
-
+                //处理滑动冲突
+                if(Math.abs(mCurPosY - mPosY) > mLineInterval && Math.abs(mCurPosY - mPosY) > Math.abs(mCurPosX - mPosX)){
+                    return false;
+                }
 
                 //判断向左滑还是向右滑
                 if (mCurPosX - mPosX > 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
@@ -832,7 +839,6 @@ public class ScaleView extends View {
      * @param type  0:加 1：减
      */
     private void setChangeNowIndex(int type){
-        //现在的
         float StarDistance = Math.abs(mPosX - mCurPosX);
         float LastTimeDistance = Math.abs(mChangeIndex - mCurPosX);
         if (StarDistance > mLineInterval * mSlidingRatio && LastTimeDistance > mLineInterval * mSlidingRatio) {
