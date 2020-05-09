@@ -166,9 +166,14 @@ public class ScaleView extends View {
     private boolean mFontIsTop = true;
 
     /**
-     * 显示的刻度数字比例：刻度 / 比例
+     * 显示的刻度数字与刻度比例（比如要显示小数的情况）：刻度 / 比例 = 显示刻度
      */
     private double mScaleScale = 10;
+
+    /**
+     * 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态
+     */
+    private double mSlidingRatio = 1.5;
 
     /**
      * 滑动监听
@@ -234,11 +239,26 @@ public class ScaleView extends View {
     private float[] mPointsMiddleRight;
     private float[] mPointsLowRight;
 
-    //滑动
+    /**
+     * 记录手指点下
+     */
     float mPosX = 0;
+    /**
+     * 记录当前手指滑动x
+     */
     float mCurPosX = 0;
+    /**
+     * 记录当前手指滑动y
+     */
     float mCurPosY = 0;
+    /**
+     * 录上一次滑动的点
+     */
     float mCurPosX_ing = 0;
+    /**
+     * 记录上一次改变刻度的点
+     */
+    float mChangeIndex = 0;
     /**
      * 记录当前是向左滑还是向右滑
      * 0:左滑
@@ -768,9 +788,11 @@ public class ScaleView extends View {
                         Log.e("TAG", "------------------------换向右边" + mCurPosX);
                         mPosX = mCurPosX_ing;
                         mDirection = 1;
-                        mNowIndex -= mScaleValue;
+//                        mNowIndex -= mScaleValue;
+                        setChangeNowIndex(1);
                     } else {
-                        mNowIndex += mScaleValue;
+//                        mNowIndex += mScaleValue;
+                        setChangeNowIndex(0);
                     }
                 } else if (mDirection == 1){
                     //当前为向右滑状态--mCurPosX递增
@@ -778,9 +800,11 @@ public class ScaleView extends View {
                         Log.e("TAG", "------------------------换向左边" + mCurPosX);
                         mPosX = mCurPosX_ing;
                         mDirection = 0;
-                        mNowIndex += mScaleValue;
+//                        mNowIndex += mScaleValue;
+                        setChangeNowIndex(0);
                     } else {
-                        mNowIndex -= mScaleValue;
+//                        mNowIndex -= mScaleValue;
+                        setChangeNowIndex(1);
                     }
                 }
 
@@ -802,6 +826,24 @@ public class ScaleView extends View {
             default:
         }
         return true;
+    }
+
+    /**
+     * 改变现在的下标
+     * @param type  0:加 1：减
+     */
+    private void setChangeNowIndex(int type){
+        //现在的
+        float StarDistance = Math.abs(mPosX - mCurPosX);
+        float LastTimeDistance = Math.abs(mChangeIndex - mCurPosX);
+        if (StarDistance > mLineInterval * mSlidingRatio && LastTimeDistance > mLineInterval * mSlidingRatio) {
+            if (type == 0) {
+                mNowIndex += mScaleValue;
+            } else if (type == 1) {
+                mNowIndex -= mScaleValue;
+            }
+            mChangeIndex = mCurPosX;
+        }
     }
 
     /**
