@@ -41,6 +41,11 @@ public class ScaleView extends View {
     private int mScaleValue = 1;
 
     /**
+     * 刻度数值的字体大小
+     */
+    private float mTextSize = 50f;
+
+    /**
      * 指针线宽度
      */
     private float mPointerWidth = 3f;
@@ -639,7 +644,7 @@ public class ScaleView extends View {
         //设置文字居中
         mPaint.setTextAlign(Paint.Align.CENTER);
         //设置文字大小
-        mPaint.setTextSize(50f);
+        mPaint.setTextSize(mTextSize);
         //设置文字颜色
         mPaint.setColor(ContextCompat.getColor(getContext(), mNumColor));
 
