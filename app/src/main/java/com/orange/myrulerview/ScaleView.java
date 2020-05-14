@@ -778,11 +778,6 @@ public class ScaleView extends View {
                     return true;
                 }
 
-                //处理滑动冲突
-                if(Math.abs(mCurPosY - mPosY) > mLineInterval && Math.abs(mCurPosY - mPosY) > Math.abs(mCurPosX - mPosX)){
-                    return false;
-                }
-
                 //判断向左滑还是向右滑
                 if (mCurPosX - mPosX > 0 && (Math.abs(mCurPosX - mPosX) > mLineInterval)) {
                     Log.e("TAG", "向右" + mCurPosX);
@@ -837,6 +832,41 @@ public class ScaleView extends View {
             default:
         }
         return true;
+    }
+
+    /**
+     * 事件分发：处理滑动冲突处理
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        float x_down = 0;
+        float y_down = 0;
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x_down = ev.getX();
+                y_down = ev.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float x_move = ev.getX();
+                float y_move = ev.getY();
+                //处理滑动冲突条件 当Y轴滑动超过一个刻度 && Y轴滑动距离大于X轴 就交给父类去处理
+                if (Math.abs(y_down - y_move) > mLineInterval && Math.abs(y_down - y_move) > Math.abs(x_down - x_move)) {
+                    //允许外层控件拦截事件
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                } else {
+                    //需要内部控件处理该事件，不允许上层viewGroup拦截
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            default:
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
