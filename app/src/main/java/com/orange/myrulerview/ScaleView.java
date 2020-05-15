@@ -801,10 +801,8 @@ public class ScaleView extends View {
                         Log.e("TAG", "------------------------换向右边" + mCurPosX);
                         mPosX = mCurPosX_ing;
                         mDirection = 1;
-//                        mNowIndex -= mScaleValue;
                         setChangeNowIndex(1);
                     } else {
-//                        mNowIndex += mScaleValue;
                         setChangeNowIndex(0);
                     }
                 } else if (mDirection == 1){
@@ -813,10 +811,8 @@ public class ScaleView extends View {
                         Log.e("TAG", "------------------------换向左边" + mCurPosX);
                         mPosX = mCurPosX_ing;
                         mDirection = 0;
-//                        mNowIndex += mScaleValue;
                         setChangeNowIndex(0);
                     } else {
-//                        mNowIndex -= mScaleValue;
                         setChangeNowIndex(1);
                     }
                 }
