@@ -24,10 +24,6 @@ public class MyScrollView extends ScrollView {
         super(context, attrs, defStyleAttr);
     }
 
-    public MyScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     //彻底拦截 ScaleView 传递出来的事件（处理滑动冲突）
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
