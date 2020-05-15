@@ -28,7 +28,7 @@ public class ScaleView extends View {
     /**
      * 最大刻度
      */
-    private int mMaxIndex = 100;
+    private int mMaxIndex = 300;
 
     /**
      * 当前刻度
@@ -54,6 +54,11 @@ public class ScaleView extends View {
      * 指针头宽度
      */
     private float mPointerHead = 30;
+
+    /**
+     * 是否显示针头
+     */
+    private boolean mIsShowPointerHead = false;
 
     /**
      * 底线线宽度
@@ -628,13 +633,15 @@ public class ScaleView extends View {
         //设置线条宽度
         mPaint.setStrokeWidth(mPointerWidth);
 
-        mCanvas.drawLine(mPointerPosition, mHeight - mBaseLineWidth - mBaseLineMarginBottom, mPointerPosition, mPointerHead + mPointerMarginTop, mPaint);
-        Path mPath = new Path();
-        mPath.moveTo(mPointerPosition, mPointerMarginTop);
-        mPath.lineTo(mPointerPosition - (mPointerHead / 2), mPointerHead + mPointerMarginTop);
-        mPath.lineTo(mPointerPosition + (mPointerHead / 2), mPointerHead + mPointerMarginTop);
-        mPath.close();
-        mCanvas.drawPath(mPath, mPaint);
+        mCanvas.drawLine(mPointerPosition, mHeight - mBaseLineWidth - mBaseLineMarginBottom, mPointerPosition, mIsShowPointerHead == true ? mPointerHead + mPointerMarginTop : mPointerMarginTop, mPaint);
+        if (mIsShowPointerHead) {
+            Path mPath = new Path();
+            mPath.moveTo(mPointerPosition, mPointerMarginTop);
+            mPath.lineTo(mPointerPosition - (mPointerHead / 2), mPointerHead + mPointerMarginTop);
+            mPath.lineTo(mPointerPosition + (mPointerHead / 2), mPointerHead + mPointerMarginTop);
+            mPath.close();
+            mCanvas.drawPath(mPath, mPaint);
+        }
     }
 
     /**
