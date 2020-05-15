@@ -128,7 +128,7 @@ public class ScaleView extends View {
     /**
      * 右边刻度与 View 右边的距离
      */
-    private int mRightMarginRight= 50;
+    private int mRightMarginRight = 50;
 
     /**
      * 中刻度线频率
@@ -183,7 +183,7 @@ public class ScaleView extends View {
     /**
      * 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态
      */
-    private double mSlidingRatio = 1;
+    private double mSlidingRatio = 0.5;
 
     /**
      * 滑动监听
@@ -331,7 +331,7 @@ public class ScaleView extends View {
         //设置抗锯齿
         mPaint.setAntiAlias(true);
         // 线帽，即画的线条两端是否带有圆角，SQUARE，矩形
-        mPaint.setStrokeCap( Paint.Cap.SQUARE);
+        mPaint.setStrokeCap(Paint.Cap.SQUARE);
     }
 
     /**
@@ -344,14 +344,15 @@ public class ScaleView extends View {
 
     /**
      * 判断刻度线的边距
+     *
      * @param isTopMargin true:上边距  false:下边距
-     * @param margin    边距值
+     * @param margin      边距值
      * @return
      */
-    private int getHighPointerMargin(boolean isTopMargin, int margin){
-        switch (mScalePosition){
+    private int getHighPointerMargin(boolean isTopMargin, int margin) {
+        switch (mScalePosition) {
             case TOP:
-                if (isTopMargin){
+                if (isTopMargin) {
                     //上边距
                     return 0;
                 } else {
@@ -359,7 +360,7 @@ public class ScaleView extends View {
                     return margin;
                 }
             case CENTER:
-                if (isTopMargin){
+                if (isTopMargin) {
                     //上边距
                     return margin;
                 } else {
@@ -368,7 +369,7 @@ public class ScaleView extends View {
                 }
             case BOTTOM:
             default:
-                if (isTopMargin){
+                if (isTopMargin) {
                     //上边距
                     return margin;
                 } else {
@@ -442,9 +443,9 @@ public class ScaleView extends View {
                             mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
-                    mTypeIndexHigh ++;
+                    mTypeIndexHigh++;
                 }
-            } else if (mNowIndexValue % mMiddleFrequency == 0){
+            } else if (mNowIndexValue % mMiddleFrequency == 0) {
                 //中刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -460,9 +461,9 @@ public class ScaleView extends View {
                             mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
-                    mTypeIndexMiddle ++;
+                    mTypeIndexMiddle++;
                 }
-            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue > mMinIndex)  {
+            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue > mMinIndex) {
                 //低刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -478,7 +479,7 @@ public class ScaleView extends View {
                             mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
-                    mTypeIndexLow ++;
+                    mTypeIndexLow++;
                 }
             }
 
@@ -516,10 +517,10 @@ public class ScaleView extends View {
             if (mNowIndexValue % mHighFrequency == 0) {
                 //高刻度
                 mHighLength = mHighLength + 1;
-            } else if (mNowIndexValue % mMiddleFrequency == 0){
+            } else if (mNowIndexValue % mMiddleFrequency == 0) {
                 //中刻度
                 mMiddleLength = mMiddleLength + 1;
-            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue < mMaxIndex)  {
+            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue < mMaxIndex) {
                 //低刻度
                 mLowLength = mLowLength + 1;
             }
@@ -565,9 +566,9 @@ public class ScaleView extends View {
                             mPointsHighRight[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
-                    mTypeIndexHigh ++;
+                    mTypeIndexHigh++;
                 }
-            } else if (mNowIndexValue % mMiddleFrequency == 0){
+            } else if (mNowIndexValue % mMiddleFrequency == 0) {
                 //中刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -583,9 +584,9 @@ public class ScaleView extends View {
                             mPointsMiddleRight[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
-                    mTypeIndexMiddle ++;
+                    mTypeIndexMiddle++;
                 }
-            } else  if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue < mMaxIndex) {
+            } else if (mNowIndexValue % mScaleValue == 0 && mNowIndexValue < mMaxIndex) {
                 //低刻度
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
@@ -601,7 +602,7 @@ public class ScaleView extends View {
                             mPointsLowRight[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
-                    mTypeIndexLow ++;
+                    mTypeIndexLow++;
                 }
             }
 
@@ -656,7 +657,7 @@ public class ScaleView extends View {
         mPaint.setColor(ContextCompat.getColor(getContext(), mNumColor));
 
         float y = mHeight - mFontMarginBottom;
-        if (mFontIsTop){
+        if (mFontIsTop) {
             y = mFontMarginTop;
         }
 
@@ -681,8 +682,8 @@ public class ScaleView extends View {
     private void onDrawRightNum(float y) {
         //从刻度线数组或取到文字的下标
         for (int i = 0; i < mPointsHighRight.length; i++) {
-            if (i % 4 == 0){
-                int mNowIndexValue = getNowIndexValue((int)mPointsHighRight[i]);
+            if (i % 4 == 0) {
+                int mNowIndexValue = getNowIndexValue((int) mPointsHighRight[i]);
                 float x = mPointsHighRight[i];
                 mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
             }
@@ -692,8 +693,8 @@ public class ScaleView extends View {
     private void onDrawLeftNum(float y) {
         //从刻度线数组或取到文字的下标
         for (int i = 0; i < mPointsHighLeft.length; i++) {
-            if (i % 4 == 0){
-                int mNowIndexValue = getNowIndexValue((int)mPointsHighLeft[i]);
+            if (i % 4 == 0) {
+                int mNowIndexValue = getNowIndexValue((int) mPointsHighLeft[i]);
                 float x = mPointsHighLeft[i];
                 mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
             }
@@ -702,11 +703,12 @@ public class ScaleView extends View {
 
     /**
      * 根据当前的x轴获取当前的值
+     *
      * @param v
      * @return
      */
     private int getNowIndexValue(int v) {
-        if(v < mPointerPosition){
+        if (v < mPointerPosition) {
             return mNowIndex - ((mPointerPosition - v) / mLineInterval * mScaleValue);
         } else {
             return mNowIndex + ((v - mPointerPosition) / mLineInterval * mScaleValue);
@@ -766,7 +768,7 @@ public class ScaleView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mPosX = event.getX();
                 mPosY = event.getY();
@@ -781,7 +783,7 @@ public class ScaleView extends View {
                 //限制触摸范围
                 if ((mCurPosX < 0 || mCurPosX > mWidth || mCurPosY < 0 || mCurPosY > mHeight)
                         //同时限制手指按压刷新
-                        || (mCurPosX == mCurPosX_ing)){
+                        || (mCurPosX == mCurPosX_ing)) {
                     return true;
                 }
 
@@ -795,7 +797,7 @@ public class ScaleView extends View {
                 }
 
                 //根据左滑还是右滑判断变向
-                if (mDirection == 0){
+                if (mDirection == 0) {
                     //当前为向左滑状态--mCurPosX递减
                     if (mCurPosX > mCurPosX_ing) {
                         Log.e("TAG", "------------------------换向右边" + mCurPosX);
@@ -805,7 +807,7 @@ public class ScaleView extends View {
                     } else {
                         setChangeNowIndex(0);
                     }
-                } else if (mDirection == 1){
+                } else if (mDirection == 1) {
                     //当前为向右滑状态--mCurPosX递增
                     if (mCurPosX < mCurPosX_ing) {
                         Log.e("TAG", "------------------------换向左边" + mCurPosX);
@@ -816,17 +818,7 @@ public class ScaleView extends View {
                         setChangeNowIndex(1);
                     }
                 }
-
-                //判断是否刷新
-                if (mNowIndex < mMinIndex){
-                    mNowIndex = mMinIndex;
-                } else if (mNowIndex > mMaxIndex){
-                    mNowIndex = mMaxIndex;
-                } else {
-                    invalidate();
-                    //记录上一次
-                    mCurPosX_ing = mCurPosX;
-                }
+                refresh();
 
                 break;
             case MotionEvent.ACTION_UP:
@@ -838,7 +830,24 @@ public class ScaleView extends View {
     }
 
     /**
+     * 刷新视图
+     */
+    private void refresh() {
+        //判断是否刷新
+        if (mNowIndex < mMinIndex) {
+            mNowIndex = mMinIndex;
+        } else if (mNowIndex > mMaxIndex) {
+            mNowIndex = mMaxIndex;
+        } else {
+            invalidate();
+            //记录上一次
+            mCurPosX_ing = mCurPosX;
+        }
+    }
+
+    /**
      * 事件分发：处理滑动冲突处理
+     *
      * @param ev
      * @return
      */
@@ -846,7 +855,7 @@ public class ScaleView extends View {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         float x_down = 0;
         float y_down = 0;
-        switch (ev.getAction()){
+        switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x_down = ev.getX();
                 y_down = ev.getY();
@@ -874,9 +883,10 @@ public class ScaleView extends View {
 
     /**
      * 改变现在的下标
-     * @param type  0:加 1：减
+     *
+     * @param type 0:加 1：减
      */
-    private void setChangeNowIndex(int type){
+    private void setChangeNowIndex(int type) {
         float StarDistance = Math.abs(mPosX - mCurPosX);
         float LastTimeDistance = Math.abs(mChangeIndex - mCurPosX);
         if (StarDistance > mLineInterval * mSlidingRatio && LastTimeDistance > mLineInterval * mSlidingRatio) {
@@ -890,19 +900,50 @@ public class ScaleView extends View {
     }
 
     /**
+     * 加刻度
+     */
+    public void setPlusScale() {
+        mNowIndex += mScaleValue;
+        refresh();
+
+    }
+
+    /**
+     * 减刻度
+     */
+    public void setMinusScale() {
+        mNowIndex -= mScaleValue;
+        refresh();
+
+    }
+
+    /**
+     * 设置刻度
+     *
+     * @param scale
+     */
+    public void setNowIndex(double scale) {
+        int index = (int) (scale * mScaleScale);
+        mNowIndex = index;
+        refresh();
+    }
+
+    /**
      * 设置改变刻度回调监听
+     *
      * @param onScaleChangeListener
      */
-    public void setOnScaleChangeListener(OnScaleChangeListener onScaleChangeListener){
+    public void setOnScaleChangeListener(OnScaleChangeListener onScaleChangeListener) {
         this.onScaleChangeListener = onScaleChangeListener;
     }
 
     /**
      * 改变监听
      */
-    public interface OnScaleChangeListener{
+    public interface OnScaleChangeListener {
         /**
          * 回调当前的刻度
+         *
          * @param index
          */
         void OnChange(double index);

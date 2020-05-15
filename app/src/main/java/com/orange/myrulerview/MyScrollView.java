@@ -25,12 +25,12 @@ public class MyScrollView extends ScrollView {
     }
 
     //彻底拦截 ScaleView 传递出来的事件（处理滑动冲突）
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 }
