@@ -56,6 +56,16 @@ public class ScaleView extends View {
     private float mPointerHead = 30;
 
     /**
+     * 指针是否向上突出
+     */
+    private boolean mPointerTopProtruding = false;
+
+    /**
+     * 指针是否向下突出(相对于刻度线来说，如下对齐情况中，指针线下面要长于刻度线)
+     */
+    private boolean mPointerBottomProtruding = false;
+
+    /**
      * 是否显示针头
      */
     private boolean mIsShowPointerHead = false;
@@ -634,7 +644,26 @@ public class ScaleView extends View {
         //设置线条宽度
         mPaint.setStrokeWidth(mPointerWidth);
 
-        mCanvas.drawLine(mPointerPosition, mHeight - mBaseLineWidth - mBaseLineMarginBottom, mPointerPosition, mIsShowPointerHead == true ? mPointerHead + mPointerMarginTop : mPointerMarginTop, mPaint);
+        float stopY;
+        if (mIsShowPointerHead) {
+            //显示指针
+            stopY = mPointerHead + mPointerMarginTop;
+        } else {
+            //不显示指针
+            stopY = mPointerMarginTop;
+        }
+        if (mPointerTopProtruding) {
+            //指针向上突出
+            stopY -= mPointerMarginTop;
+        }
+
+        float starY = mHeight - mBaseLineWidth - mBaseLineMarginBottom;
+        if (mPointerBottomProtruding){
+            //指针向下突出
+            starY += mBaseLineMarginBottom;
+        }
+
+        mCanvas.drawLine(mPointerPosition, starY, mPointerPosition, stopY, mPaint);
         if (mIsShowPointerHead) {
             Path mPath = new Path();
             mPath.moveTo(mPointerPosition, mPointerMarginTop);
