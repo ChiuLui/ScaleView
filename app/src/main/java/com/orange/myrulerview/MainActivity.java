@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void OnChange(double index) {
                 edNum.setText(String.valueOf(index));
+                edNum.setSelection(edNum.getText().length());
             }
         });
 

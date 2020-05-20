@@ -86,14 +86,24 @@ public class ScaleView extends View {
     private int mLineInterval = 30;
 
     /**
-     * 底线与 View 底的距离（下边距为文字留位置）
+     * 所有元素（除了文字）与 View 底的距离（下边距为文字留位置）
      */
     private int mBaseLineMarginBottom = 50;
 
     /**
-     * 指针与 View 顶的距离（上边距为文字留位置）
+     * 所有元素（除了文字）与 View 顶的距离（上边距为文字留位置）
      */
     private int mPointerMarginTop = 50;
+
+    /**
+     * 所有元素（除了文字）与  View 左边的距离
+     */
+    private int mLeftMarginLeft = 50;
+
+    /**
+     * 所有元素（除了文字）与  View 右边的距离
+     */
+    private int mRightMarginRight = 50;
 
     /**
      * 文字下边距（避免显示不全）
@@ -119,16 +129,6 @@ public class ScaleView extends View {
      * 高刻度的边距
      */
     private int mHighPointerMargin = 50;
-
-    /**
-     * 左边刻度与 View 左边的距离
-     */
-    private int mLeftMarginLeft = 50;
-
-    /**
-     * 右边刻度与 View 右边的距离
-     */
-    private int mRightMarginRight = 50;
 
     /**
      * 中刻度线频率
@@ -915,6 +915,22 @@ public class ScaleView extends View {
         mNowIndex -= mScaleValue;
         refresh();
 
+    }
+
+    /**
+     * 设置最小刻度范围
+     */
+    public void setMinIndex(double scale){
+        int index = (int) (scale * mScaleScale);
+        mMinIndex = index;
+    }
+
+    /**
+     * 设置最大刻度范围
+     */
+    public void setMaxIndex(double scale){
+        int index = (int) (scale * mScaleScale);
+        mMaxIndex = index;
     }
 
     /**
