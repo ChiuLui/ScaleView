@@ -28,7 +28,7 @@ public class ScaleView extends View {
     /**
      * 最大刻度
      */
-    private int mMaxIndex = 300;
+    private int mMaxIndex = 100;
 
     /**
      * 当前刻度
