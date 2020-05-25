@@ -290,6 +290,9 @@ public class ScaleView extends View {
      */
     int mDirection = -1;
 
+    float x_down = 0;
+    float y_down = 0;
+
     private Canvas mCanvas;
     private Paint mPaint = new Paint();
 
@@ -882,8 +885,6 @@ public class ScaleView extends View {
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        float x_down = 0;
-        float y_down = 0;
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x_down = ev.getX();
