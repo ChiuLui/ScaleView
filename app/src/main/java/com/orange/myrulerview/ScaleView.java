@@ -951,7 +951,7 @@ public class ScaleView extends View {
             if (i < count * 0.1) {
                 //第一段。不衰减
                 postDuration = postDuration;
-            } else if (i < count * 0.75) {
+            } else if (i < count * 0.7) {
                 //第二段略微衰减
                 postDuration = postDuration + i;
             } else {
