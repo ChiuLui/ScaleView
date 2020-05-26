@@ -223,6 +223,11 @@ public class ScaleView extends View {
      */
     private int mUnits = 500;
 
+    /**
+     * 最大滑动数率
+     */
+    private int mMaxVelocity = 15000;
+
     //------------------------------------------------上面是公共控制属性，下面是内部计算变量
 
     /**
@@ -839,7 +844,7 @@ public class ScaleView extends View {
     public boolean onTouchEvent(MotionEvent event) {
 
         mVelocityTracker.addMovement(event);
-        mVelocityTracker.computeCurrentVelocity(mUnits);//（xx毫秒）时间单位内运动了多少个像素
+        mVelocityTracker.computeCurrentVelocity(mUnits, mMaxVelocity);//（xx毫秒）时间单位内运动了多少个像素
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -921,7 +926,7 @@ public class ScaleView extends View {
      */
     private void inertiaScroll(int xVelocity) {
         int absX = Math.abs(xVelocity);
-        int proportion = 5;
+        int proportion = 3;
         if (absX < mLineInterval || ((absX / proportion) / mLineInterval) <= 0) {
             return;
         }
@@ -949,15 +954,18 @@ public class ScaleView extends View {
             //匀速时间
             postDuration = postDuration + interval;
             //模拟惯性
-            if (i < count * 0.1) {
+            if (i < count * 0.7) {
                 //第一段。不衰减
-                postDuration = postDuration;
+                postDuration = postDuration + 0;
             } else if (i < count * 0.7) {
                 //第二段略微衰减
-                postDuration = postDuration + i;
+                postDuration = postDuration + (int) (i * 0.1);
+            } else if (i < count * 0.9) {
+                //第三段略微衰减
+                postDuration = postDuration + (int) (i * 0.2);
             } else {
-                //第三段衰减很快
-                postDuration = postDuration + i * 2;
+                //第四段衰减很快
+                postDuration = postDuration + (int) (i * 0.3);
             }
         }
 
