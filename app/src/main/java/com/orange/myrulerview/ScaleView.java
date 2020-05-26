@@ -921,12 +921,13 @@ public class ScaleView extends View {
      */
     private void inertiaScroll(int xVelocity) {
         int absX = Math.abs(xVelocity);
-        if (absX < mLineInterval || ((absX / 5) / mLineInterval) <= 0) {
+        int proportion = 5;
+        if (absX < mLineInterval || ((absX / proportion) / mLineInterval) <= 0) {
             return;
         }
 
         //算出惯性的像素能画几条线
-        int count = (absX / 5) / mLineInterval;
+        int count = (absX / proportion) / mLineInterval;
 
         //算出总时长
         int duration = mUnits;
