@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -214,6 +217,12 @@ public class ScaleView extends View {
         TOP, CENTER, BOTTOM
     }
 
+    /**
+     * 惯性滑动速率时间单位
+     * 多少毫秒时间单位内运动了多少个像素
+     */
+    private int mUnits = 500;
+
     //------------------------------------------------上面是公共控制属性，下面是内部计算变量
 
     /**
@@ -296,12 +305,40 @@ public class ScaleView extends View {
     private Canvas mCanvas;
     private Paint mPaint = new Paint();
 
+    private VelocityTracker mVelocityTracker;
+    private int xVelocity;
+
+    private static final int WHAT_PLUS = 1;
+    private static final int WHAT_MINUS = 2;
+    private static final int WHAT_STOP = 3;
+    public Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case WHAT_PLUS:
+                    setPlusScale();
+                    break;
+                case WHAT_MINUS:
+                    setMinusScale();
+                    break;
+                case WHAT_STOP:
+                    mHandler.removeMessages(WHAT_PLUS);
+                    mHandler.removeMessages(WHAT_MINUS);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     public ScaleView(Context context) {
         super(context);
     }
 
     public ScaleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mVelocityTracker = VelocityTracker.obtain();
     }
 
     @Override
@@ -800,10 +837,15 @@ public class ScaleView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        mVelocityTracker.addMovement(event);
+        mVelocityTracker.computeCurrentVelocity(mUnits);//（xx毫秒）时间单位内运动了多少个像素
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mPosX = event.getX();
                 mPosY = event.getY();
+                mHandler.sendEmptyMessage(WHAT_STOP);
                 break;
             case MotionEvent.ACTION_MOVE:
                 mCurPosX = event.getX();
@@ -855,11 +897,71 @@ public class ScaleView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 mDirection = -1;
+                //在MotionEvent.ACTION_UP回调中获取抬手之后的移动速率
+                xVelocity = (int) mVelocityTracker.getXVelocity();
+                Log.e("TAG", "onTouchEvent: ACTION_UP" + "移动速率=" + xVelocity);
+                inertiaScroll(xVelocity);
                 break;
             default:
         }
         return true;
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mVelocityTracker.recycle();
+        mHandler.removeMessages(WHAT_PLUS);
+        mHandler.removeMessages(WHAT_MINUS);
+    }
+
+    /**
+     * 惯性滑动
+     * @param xVelocity 滑动速率
+     */
+    private void inertiaScroll(int xVelocity) {
+        int absX = Math.abs(xVelocity);
+        if (absX < mLineInterval || ((absX / 5) / mLineInterval) <= 0) {
+            return;
+        }
+
+        //算出惯性的像素能画几条线
+        int count = (absX / 5) / mLineInterval;
+
+        //算出总时长
+        int duration = mUnits;
+        //算出画每条线的平均时间
+        int interval = duration / count;
+
+        int what;
+        if (xVelocity > 0) {
+            //往右边滑--减少
+            what = WHAT_MINUS;
+        } else {
+            //往左边滑--增加
+            what = WHAT_PLUS;
+        }
+
+        int postDuration = 0;
+        for (int i = 0; i < count; i++) {
+            mHandler.sendEmptyMessageDelayed(what, postDuration);
+            //匀速时间
+            postDuration = postDuration + interval;
+            //模拟惯性
+            if (i < count * 0.1) {
+                //第一段。不衰减
+                postDuration = postDuration;
+            } else if (i < count * 0.75) {
+                //第二段略微衰减
+                postDuration = postDuration + i;
+            } else {
+                //第三段衰减很快
+                postDuration = postDuration + i * 2;
+            }
+        }
+
+    }
+
 
     /**
      * 刷新视图
@@ -868,8 +970,10 @@ public class ScaleView extends View {
         //判断是否刷新
         if (mNowIndex < mMinIndex) {
             mNowIndex = mMinIndex;
+            mHandler.sendEmptyMessage(WHAT_STOP);
         } else if (mNowIndex > mMaxIndex) {
             mNowIndex = mMaxIndex;
+            mHandler.sendEmptyMessage(WHAT_STOP);
         } else {
             invalidate();
             //记录上一次
@@ -935,7 +1039,6 @@ public class ScaleView extends View {
     public void setPlusScale() {
         mNowIndex += mScaleValue;
         refresh();
-
     }
 
     /**
@@ -944,7 +1047,6 @@ public class ScaleView extends View {
     public void setMinusScale() {
         mNowIndex -= mScaleValue;
         refresh();
-
     }
 
     /**
