@@ -31,12 +31,12 @@ public class ScaleView extends View {
     /**
      * 最大刻度
      */
-    private int mMaxIndex = 100;
+    private int mMaxIndex = 300;
 
     /**
      * 当前刻度
      */
-    private int mNowIndex = 50;
+    private int mNowIndex = 150;
 
     /**
      * 每格刻度的值
@@ -954,18 +954,24 @@ public class ScaleView extends View {
             //匀速时间
             postDuration = postDuration + interval;
             //模拟惯性
-            if (i < count * 0.7) {
+            if (i < count * 0.5) {
                 //第一段。不衰减
                 postDuration = postDuration + 0;
-            } else if (i < count * 0.7) {
+            } else if (i < count * 0.6) {
                 //第二段略微衰减
                 postDuration = postDuration + (int) (i * 0.1);
-            } else if (i < count * 0.9) {
+            } else if (i < count * 0.7) {
                 //第三段略微衰减
                 postDuration = postDuration + (int) (i * 0.2);
+            } else if (i < count * 0.8) {
+                //第三段略微衰减
+                postDuration = postDuration + (int) (i * 0.3);
+            } else if (i < count * 0.9) {
+                //第三段略微衰减
+                postDuration = postDuration + (int) (i * 0.4);
             } else {
                 //第四段衰减很快
-                postDuration = postDuration + (int) (i * 0.3);
+                postDuration = postDuration + (int) (i * 0.5);
             }
         }
 
