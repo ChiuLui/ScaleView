@@ -958,19 +958,19 @@ public class ScaleView extends View {
                 //第一段。不衰减
                 postDuration = postDuration + 0;
             } else if (i < count * 0.6) {
-                //第二段略微衰减
+                //第二段衰减
                 postDuration = postDuration + (int) (i * 0.1);
             } else if (i < count * 0.7) {
-                //第三段略微衰减
+                //第三段衰减
                 postDuration = postDuration + (int) (i * 0.2);
             } else if (i < count * 0.8) {
-                //第三段略微衰减
+                //第四段衰减
                 postDuration = postDuration + (int) (i * 0.3);
             } else if (i < count * 0.9) {
-                //第三段略微衰减
+                //第五段衰减
                 postDuration = postDuration + (int) (i * 0.4);
             } else {
-                //第四段衰减很快
+                //最后一段衰减
                 postDuration = postDuration + (int) (i * 0.5);
             }
         }
