@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -50,8 +51,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode()== KeyEvent.KEYCODE_ENTER))
                 {
                     scaleView.setNowIndex(Double.valueOf(String.valueOf(edNum.getText())));
+                    edNum.setCursorVisible(false);
                     return false;
                 }
+                return false;
+            }
+        });
+
+        edNum.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                edNum.setCursorVisible(true);
                 return false;
             }
         });
