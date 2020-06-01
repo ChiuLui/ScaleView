@@ -226,6 +226,11 @@ public class ScaleView extends View {
      */
     private int mMaxVelocity = 15000;
 
+    /**
+     * paint 的线帽
+     */
+    private Paint.Cap mStrokeCap = Paint.Cap.SQUARE;
+
     //------------------------------------------------上面是公共控制属性，下面是内部计算变量
 
     /**
@@ -384,6 +389,18 @@ public class ScaleView extends View {
         mScalePosition = typedArray.getInt(R.styleable.ScaleView_scale_position, mScalePosition);
         mUnits = typedArray.getInteger(R.styleable.ScaleView_units, mUnits);
         mMaxVelocity = typedArray.getInteger(R.styleable.ScaleView_max_velocity, mMaxVelocity);
+        int strokeCap = typedArray.getInt(R.styleable.ScaleView_strokeCap, 2);
+        switch (strokeCap) {
+            case 0:
+                mStrokeCap = Paint.Cap.BUTT;
+                break;
+            case 1:
+                mStrokeCap = Paint.Cap.ROUND;
+                break;
+            case 2:
+            default:
+                mStrokeCap = Paint.Cap.SQUARE;
+        }
     }
 
     @Override
@@ -426,7 +443,7 @@ public class ScaleView extends View {
         //设置抗锯齿
         mPaint.setAntiAlias(true);
         // 线帽，即画的线条两端是否带有圆角，SQUARE，矩形
-        mPaint.setStrokeCap(Paint.Cap.SQUARE);
+        mPaint.setStrokeCap(mStrokeCap);
     }
 
     /**

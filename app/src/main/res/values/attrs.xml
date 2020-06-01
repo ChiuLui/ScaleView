@@ -39,6 +39,11 @@
         <attr name="show_baseLine" format="boolean"/>
         <attr name="units" format="float"/>
         <attr name="max_velocity" format="float"/>
+        <attr name="strokeCap" format="enum">
+            <enum name="BUTT" value="0" />
+            <enum name="ROUND" value="1" />
+            <enum name="SQUARE" value="2" />
+        </attr>
         <attr name="scale_position" format="enum">
             <enum name="top" value="0" />
             <enum name="center" value="1" />
