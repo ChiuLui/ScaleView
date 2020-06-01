@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScaleView">
+        <attr name="min_index" format="integer"/>
+        <attr name="max_index" format="integer"/>
+        <attr name="now_index" format="integer"/>
+        <attr name="scale_value" format="integer"/>
+        <attr name="text_size" format="float"/>
+        <attr name="pointer_width" format="float"/>
+        <attr name="pointer_head" format="float"/>
+        <attr name="pointer_top_protruding" format="boolean"/>
+        <attr name="pointer_bottom_protruding" format="boolean"/>
+        <attr name="show_pointer_head" format="boolean"/>
+        <attr name="baseLine_width" format="float"/>
+        <attr name="low_scale_width" format="float"/>
+        <attr name="middle_scale_width" format="float"/>
+        <attr name="high_scale_width" format="float"/>
+        <attr name="line_interval" format="integer"/>
+        <attr name="baseLine_margin_bottom" format="integer"/>
+        <attr name="pointer_margin_top" format="integer"/>
+        <attr name="left_margin_left" format="integer"/>
+        <attr name="right_margin_right" format="integer"/>
+        <attr name="font_margin_bottom" format="integer"/>
+        <attr name="font_margin_top" format="integer"/>
+        <attr name="low_pointer_margin" format="integer"/>
+        <attr name="middle_pointer_margin" format="integer"/>
+        <attr name="high_pointer_margin" format="integer"/>
+        <attr name="middle_frequency" format="integer"/>
+        <attr name="high_frequency" format="integer"/>
+        <attr name="baseLine_color" format="color"/>
+        <attr name="high_scale_color" format="color"/>
+        <attr name="middle_scale_color" format="color"/>
+        <attr name="low_scale_color" format="color"/>
+        <attr name="num_color" format="color"/>
+        <attr name="pointer_color" format="color"/>
+        <attr name="font_top" format="boolean"/>
+        <attr name="scale_ratio" format="float"/>
+        <attr name="sliding_ratio" format="float"/>
+        <attr name="show_baseLine" format="boolean"/>
+        <attr name="units" format="float"/>
+        <attr name="max_velocity" format="float"/>
+        <attr name="scale_position" format="enum">
+            <enum name="top" value="0" />
+            <enum name="center" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

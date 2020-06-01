@@ -1,6 +1,7 @@
 package com.orange.myrulerview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -156,32 +157,32 @@ public class ScaleView extends View {
     /**
      * 底线颜色
      */
-    private int mBaseLineColor = R.color.colorPrimaryDark;
+    private int mBaseLineColor = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
 
     /**
      * 高刻度颜色
      */
-    private int mHighScaleColor = R.color.colorEA4335;
+    private int mHighScaleColor = ContextCompat.getColor(getContext(), R.color.colorEA4335);
 
     /**
      * 中刻度颜色
      */
-    private int mMiddleScaleColor = R.color.color3379F6;
+    private int mMiddleScaleColor = ContextCompat.getColor(getContext(), R.color.color3379F6);
 
     /**
      * 低刻度颜色
      */
-    private int mLowScaleColor = R.color.colorDEB8B1;
+    private int mLowScaleColor = ContextCompat.getColor(getContext(), R.color.colorDEB8B1);
 
     /**
      * 数字颜色
      */
-    private int mNumColor = R.color.colorPrimary;
+    private int mNumColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
 
     /**
      * 指针颜色
      */
-    private int mPointerColor = R.color.colorAccent;
+    private int mPointerColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
 
     /**
      * 字体是否要绘制在上面
@@ -191,7 +192,7 @@ public class ScaleView extends View {
     /**
      * 显示的刻度数字与刻度比例（比如要显示小数的情况）：刻度 / 比例 = 显示刻度
      */
-    private double mScaleScale = 10;
+    private double mScaleRatio = 10;
 
     /**
      * 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态
@@ -209,13 +210,9 @@ public class ScaleView extends View {
     private boolean isShowBaseLine = true;
 
     /**
-     * 刻度线位置
+     * 刻度线位置：上，中间，下
      */
-    private ScalePosition mScalePosition = ScalePosition.BOTTOM;
-
-    private enum ScalePosition {
-        TOP, CENTER, BOTTOM
-    }
+    private int mScalePosition = 2;
 
     /**
      * 惯性滑动速率时间单位
@@ -344,7 +341,47 @@ public class ScaleView extends View {
 
     public ScaleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScaleView);
         mVelocityTracker = VelocityTracker.obtain();
+        mMinIndex = typedArray.getInteger(R.styleable.ScaleView_min_index, mMinIndex);
+        mMaxIndex = typedArray.getInteger(R.styleable.ScaleView_max_index, mMaxIndex);
+        mNowIndex = typedArray.getInteger(R.styleable.ScaleView_now_index, mNowIndex);
+        mScaleValue = typedArray.getInteger(R.styleable.ScaleView_scale_value, mScaleValue);
+        mTextSize = typedArray.getFloat(R.styleable.ScaleView_text_size, mTextSize);
+        mPointerWidth = typedArray.getFloat(R.styleable.ScaleView_pointer_width, mPointerWidth);
+        mPointerHead = typedArray.getFloat(R.styleable.ScaleView_pointer_head, mPointerHead);
+        mPointerTopProtruding = typedArray.getBoolean(R.styleable.ScaleView_pointer_top_protruding, mPointerTopProtruding);
+        mPointerBottomProtruding = typedArray.getBoolean(R.styleable.ScaleView_pointer_bottom_protruding, mPointerBottomProtruding);
+        mIsShowPointerHead = typedArray.getBoolean(R.styleable.ScaleView_show_pointer_head, mIsShowPointerHead);
+        mBaseLineWidth = typedArray.getFloat(R.styleable.ScaleView_baseLine_width, mBaseLineWidth);
+        mLowScaleWidth = typedArray.getFloat(R.styleable.ScaleView_low_scale_width, mLowScaleWidth);
+        mMiddleScaleWidth = typedArray.getFloat(R.styleable.ScaleView_middle_scale_width, mMiddleScaleWidth);
+        mHighScaleWidth = typedArray.getFloat(R.styleable.ScaleView_high_scale_width, mHighScaleWidth);
+        mLineInterval = typedArray.getInteger(R.styleable.ScaleView_line_interval, mLineInterval);
+        mBaseLineMarginBottom = typedArray.getInteger(R.styleable.ScaleView_baseLine_margin_bottom, mBaseLineMarginBottom);
+        mPointerMarginTop = typedArray.getInteger(R.styleable.ScaleView_pointer_margin_top, mPointerMarginTop);
+        mLeftMarginLeft = typedArray.getInteger(R.styleable.ScaleView_left_margin_left, mLeftMarginLeft);
+        mRightMarginRight = typedArray.getInteger(R.styleable.ScaleView_right_margin_right, mRightMarginRight);
+        mFontMarginBottom = typedArray.getInteger(R.styleable.ScaleView_font_margin_bottom, mFontMarginBottom);
+        mFontMarginTop = typedArray.getInteger(R.styleable.ScaleView_font_margin_top, mFontMarginTop);
+        mLowPointerMargin = typedArray.getInteger(R.styleable.ScaleView_low_pointer_margin, mLowPointerMargin);
+        mMiddlePointerMargin = typedArray.getInteger(R.styleable.ScaleView_middle_pointer_margin, mMiddlePointerMargin);
+        mHighPointerMargin = typedArray.getInteger(R.styleable.ScaleView_high_pointer_margin, mHighPointerMargin);
+        mMiddleFrequency = typedArray.getInteger(R.styleable.ScaleView_middle_frequency, mMiddleFrequency);
+        mHighFrequency = typedArray.getInteger(R.styleable.ScaleView_high_frequency, mHighFrequency);
+        mBaseLineColor = typedArray.getColor(R.styleable.ScaleView_baseLine_color, mBaseLineColor);
+        mHighScaleColor = typedArray.getColor(R.styleable.ScaleView_high_scale_color, mHighScaleColor);
+        mMiddleScaleColor = typedArray.getColor(R.styleable.ScaleView_middle_scale_color, mMiddleScaleColor);
+        mLowScaleColor = typedArray.getColor(R.styleable.ScaleView_low_scale_color, mLowScaleColor);
+        mNumColor = typedArray.getColor(R.styleable.ScaleView_num_color, mNumColor);
+        mPointerColor = typedArray.getColor(R.styleable.ScaleView_pointer_color, mPointerColor);
+        mFontIsTop = typedArray.getBoolean(R.styleable.ScaleView_font_top, mFontIsTop);
+        mScaleRatio = typedArray.getFloat(R.styleable.ScaleView_scale_ratio, (float) mScaleRatio);
+        mSlidingRatio = typedArray.getFloat(R.styleable.ScaleView_sliding_ratio, (float) mSlidingRatio);
+        isShowBaseLine = typedArray.getBoolean(R.styleable.ScaleView_show_baseLine, isShowBaseLine);
+        mScalePosition = typedArray.getInt(R.styleable.ScaleView_scale_position, mScalePosition);
+        mUnits = typedArray.getInteger(R.styleable.ScaleView_units, mUnits);
+        mMaxVelocity = typedArray.getInteger(R.styleable.ScaleView_max_velocity, mMaxVelocity);
     }
 
     @Override
@@ -407,7 +444,7 @@ public class ScaleView extends View {
      */
     private int getHighPointerMargin(boolean isTopMargin, int margin) {
         switch (mScalePosition) {
-            case TOP:
+            case 0:
                 if (isTopMargin) {
                     //上边距
                     return 0;
@@ -415,7 +452,7 @@ public class ScaleView extends View {
                     //下边距
                     return margin;
                 }
-            case CENTER:
+            case 1:
                 if (isTopMargin) {
                     //上边距
                     return margin;
@@ -423,7 +460,7 @@ public class ScaleView extends View {
                     //下边距
                     return margin;
                 }
-            case BOTTOM:
+            case 2:
             default:
                 if (isTopMargin) {
                     //上边距
@@ -551,15 +588,15 @@ public class ScaleView extends View {
         }
 
         //绘制低刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), mLowScaleColor));
+        mPaint.setColor(mLowScaleColor);
         mPaint.setStrokeWidth(mLowScaleWidth);
         mCanvas.drawLines(mPointsLowLeft, mPaint);
         //绘制中刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), mMiddleScaleColor));
+        mPaint.setColor(mMiddleScaleColor);
         mPaint.setStrokeWidth(mMiddleScaleWidth);
         mCanvas.drawLines(mPointsMiddleLeft, mPaint);
         //绘制高刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), mHighScaleColor));
+        mPaint.setColor(mHighScaleColor);
         mPaint.setStrokeWidth(mHighScaleWidth);
         mCanvas.drawLines(mPointsHighLeft, mPaint);
     }
@@ -680,15 +717,15 @@ public class ScaleView extends View {
         }
 
         //绘制低刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), mLowScaleColor));
+        mPaint.setColor(mLowScaleColor);
         mPaint.setStrokeWidth(mLowScaleWidth);
         mCanvas.drawLines(mPointsLowRight, mPaint);
         //绘制中刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), mMiddleScaleColor));
+        mPaint.setColor(mMiddleScaleColor);
         mPaint.setStrokeWidth(mMiddleScaleWidth);
         mCanvas.drawLines(mPointsMiddleRight, mPaint);
         //绘制高刻度线
-        mPaint.setColor(ContextCompat.getColor(getContext(), mHighScaleColor));
+        mPaint.setColor(mHighScaleColor);
         mPaint.setStrokeWidth(mHighScaleWidth);
         mCanvas.drawLines(mPointsHighRight, mPaint);
     }
@@ -698,7 +735,7 @@ public class ScaleView extends View {
      */
     private void drawPointer() {
         //设置颜色
-        mPaint.setColor(ContextCompat.getColor(getContext(), mPointerColor));
+        mPaint.setColor(mPointerColor);
         //设置线条宽度
         mPaint.setStrokeWidth(mPointerWidth);
 
@@ -740,7 +777,7 @@ public class ScaleView extends View {
         //设置文字大小
         mPaint.setTextSize(mTextSize);
         //设置文字颜色
-        mPaint.setColor(ContextCompat.getColor(getContext(), mNumColor));
+        mPaint.setColor(mNumColor);
 
         float y = mHeight - mFontMarginBottom;
         if (mFontIsTop) {
@@ -751,7 +788,7 @@ public class ScaleView extends View {
         onDrawRightNum(y);
         onDrawCenter(y);
         if (onScaleChangeListener != null) {
-            onScaleChangeListener.OnChange(mNowIndex / mScaleScale);
+            onScaleChangeListener.OnChange(mNowIndex / mScaleRatio);
         }
     }
 
@@ -761,7 +798,7 @@ public class ScaleView extends View {
     private void onDrawCenter(float y) {
         //当中间下标为大刻度时才绘制，否则不绘制
         if (mNowIndex % mHighFrequency == 0) {
-            mCanvas.drawText(String.valueOf(mNowIndex / mScaleScale), mPointerPosition, y, mPaint);
+            mCanvas.drawText(String.valueOf(mNowIndex / mScaleRatio), mPointerPosition, y, mPaint);
         }
     }
 
@@ -771,7 +808,7 @@ public class ScaleView extends View {
             if (i % 4 == 0) {
                 int mNowIndexValue = getNowIndexValue((int) mPointsHighRight[i]);
                 float x = mPointsHighRight[i];
-                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
+                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleRatio), x, y, mPaint);
             }
         }
     }
@@ -782,7 +819,7 @@ public class ScaleView extends View {
             if (i % 4 == 0) {
                 int mNowIndexValue = getNowIndexValue((int) mPointsHighLeft[i]);
                 float x = mPointsHighLeft[i];
-                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
+                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleRatio), x, y, mPaint);
             }
         }
     }
@@ -809,7 +846,7 @@ public class ScaleView extends View {
         mRealLeftLineCount = 0;
         mRealRightLineCount = 0;
         //设置颜色
-        mPaint.setColor(ContextCompat.getColor(getContext(), mBaseLineColor));
+        mPaint.setColor(mBaseLineColor);
         //设置线条宽度
         mPaint.setStrokeWidth(mBaseLineWidth);
 
@@ -1080,7 +1117,7 @@ public class ScaleView extends View {
      * 设置最小刻度范围
      */
     public void setMinIndex(double scale){
-        int index = (int) (scale * mScaleScale);
+        int index = (int) (scale * mScaleRatio);
         mMinIndex = index;
     }
 
@@ -1088,7 +1125,7 @@ public class ScaleView extends View {
      * 设置最大刻度范围
      */
     public void setMaxIndex(double scale){
-        int index = (int) (scale * mScaleScale);
+        int index = (int) (scale * mScaleRatio);
         mMaxIndex = index;
     }
 
@@ -1098,7 +1135,7 @@ public class ScaleView extends View {
      * @param scale
      */
     public void setNowIndex(double scale) {
-        int index = (int) (scale * mScaleScale);
+        int index = (int) (scale * mScaleRatio);
         mNowIndex = index;
         refresh();
     }
