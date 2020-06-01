@@ -136,17 +136,17 @@ public class ScaleView extends View {
     private int mFontMarginTop = 40;
 
     /**
-     * 低刻度的边距
+     * 低刻度的边距（控制长度）
      */
     private int mLowPointerMargin = 150;
 
     /**
-     * 中刻度的边距
+     * 中刻度的边距（控制长度）
      */
     private int mMiddlePointerMargin = 100;
 
     /**
-     * 高刻度的边距
+     * 高刻度的边距（控制长度）
      */
     private int mHighPointerMargin = 50;
 
@@ -156,7 +156,7 @@ public class ScaleView extends View {
     private int mMiddleFrequency = 5;
 
     /**
-     * 大刻度线频率
+     * 高刻度线频率
      */
     private int mHighFrequency = 10;
 
@@ -166,22 +166,22 @@ public class ScaleView extends View {
     private int mBaseLineColor = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
 
     /**
-     * 高刻度颜色
+     * 高刻度线颜色
      */
     private int mHighScaleColor = ContextCompat.getColor(getContext(), R.color.colorEA4335);
 
     /**
-     * 中刻度颜色
+     * 中刻度线颜色
      */
     private int mMiddleScaleColor = ContextCompat.getColor(getContext(), R.color.color3379F6);
 
     /**
-     * 低刻度颜色
+     * 低刻度线颜色
      */
     private int mLowScaleColor = ContextCompat.getColor(getContext(), R.color.colorDEB8B1);
 
     /**
-     * 数字颜色
+     * 刻度数值颜色
      */
     private int mNumColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
 
