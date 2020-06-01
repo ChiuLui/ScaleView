@@ -2,10 +2,10 @@ ScaleView
 --------------
 ### Android 刻度尺（标尺）自定义View。
 
-![Demo效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_0.gif)
+![Demo效果](https://raw.githubusercontent.com/ChiuLui/ScaleView/master/image/RulerView_0.gif)
 
 
-![某项目内效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_1.gif)
+![某项目内效果](https://raw.githubusercontent.com/ChiuLui/ScaleView/master/image/RulerView_1.gif)
 
 
 ### 可实现不同效果。
