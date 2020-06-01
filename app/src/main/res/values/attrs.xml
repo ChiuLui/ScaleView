@@ -8,6 +8,7 @@
         <attr name="text_size" format="float"/>
         <attr name="pointer_width" format="float"/>
         <attr name="pointer_head" format="float"/>
+        <attr name="pointer_top" format="boolean"/>
         <attr name="pointer_top_protruding" format="boolean"/>
         <attr name="pointer_bottom_protruding" format="boolean"/>
         <attr name="show_pointer_head" format="boolean"/>

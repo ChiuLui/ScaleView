@@ -61,6 +61,11 @@ public class ScaleView extends View {
     private float mPointerHead = 30;
 
     /**
+     * 指针是否向上
+     */
+    private boolean mPointerIsTop = true;
+
+    /**
      * 指针是否向上突出
      */
     private boolean mPointerTopProtruding = false;
@@ -357,6 +362,7 @@ public class ScaleView extends View {
         mTextSize = typedArray.getFloat(R.styleable.ScaleView_text_size, mTextSize);
         mPointerWidth = typedArray.getFloat(R.styleable.ScaleView_pointer_width, mPointerWidth);
         mPointerHead = typedArray.getFloat(R.styleable.ScaleView_pointer_head, mPointerHead);
+        mPointerIsTop = typedArray.getBoolean(R.styleable.ScaleView_pointer_top, mPointerIsTop);
         mPointerTopProtruding = typedArray.getBoolean(R.styleable.ScaleView_pointer_top_protruding, mPointerTopProtruding);
         mPointerBottomProtruding = typedArray.getBoolean(R.styleable.ScaleView_pointer_bottom_protruding, mPointerBottomProtruding);
         mIsShowPointerHead = typedArray.getBoolean(R.styleable.ScaleView_show_pointer_head, mIsShowPointerHead);
@@ -777,13 +783,26 @@ public class ScaleView extends View {
             starY += mBaseLineMarginBottom;
         }
 
-        mCanvas.drawLine(mPointerPosition, starY, mPointerPosition, stopY, mPaint);
-        if (mIsShowPointerHead) {
-            mPath.moveTo(mPointerPosition, mPointerMarginTop);
-            mPath.lineTo(mPointerPosition - (mPointerHead / 2), mPointerHead + mPointerMarginTop);
-            mPath.lineTo(mPointerPosition + (mPointerHead / 2), mPointerHead + mPointerMarginTop);
-            mPath.close();
-            mCanvas.drawPath(mPath, mPaint);
+        if (mPointerIsTop) {
+            //指针指向上
+            mCanvas.drawLine(mPointerPosition, starY, mPointerPosition, stopY, mPaint);
+            if (mIsShowPointerHead) {
+                mPath.moveTo(mPointerPosition, mPointerMarginTop);
+                mPath.lineTo(mPointerPosition - (mPointerHead / 2), mPointerHead + mPointerMarginTop);
+                mPath.lineTo(mPointerPosition + (mPointerHead / 2), mPointerHead + mPointerMarginTop);
+                mPath.close();
+                mCanvas.drawPath(mPath, mPaint);
+            }
+        } else {
+            //指针指向下
+            mCanvas.drawLine(mPointerPosition, starY - mPointerHead, mPointerPosition, stopY - mPointerHead, mPaint);
+            if (mIsShowPointerHead) {
+                mPath.moveTo(mPointerPosition, starY);
+                mPath.lineTo(mPointerPosition - (mPointerHead / 2), starY - mPointerHead);
+                mPath.lineTo(mPointerPosition + (mPointerHead / 2), starY - mPointerHead);
+                mPath.close();
+                mCanvas.drawPath(mPath, mPaint);
+            }
         }
     }
 
