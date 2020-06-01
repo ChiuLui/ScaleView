@@ -309,6 +309,7 @@ public class ScaleView extends View {
 
     private Canvas mCanvas;
     private Paint mPaint = new Paint();
+    private Path mPath = new Path();
 
     private VelocityTracker mVelocityTracker;
     private int xVelocity;
@@ -710,7 +711,6 @@ public class ScaleView extends View {
 
         mCanvas.drawLine(mPointerPosition, starY, mPointerPosition, stopY, mPaint);
         if (mIsShowPointerHead) {
-            Path mPath = new Path();
             mPath.moveTo(mPointerPosition, mPointerMarginTop);
             mPath.lineTo(mPointerPosition - (mPointerHead / 2), mPointerHead + mPointerMarginTop);
             mPath.lineTo(mPointerPosition + (mPointerHead / 2), mPointerHead + mPointerMarginTop);
