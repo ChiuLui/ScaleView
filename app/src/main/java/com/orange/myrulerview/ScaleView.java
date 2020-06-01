@@ -265,9 +265,13 @@ public class ScaleView extends View {
      */
     private int mPointerPosition;
 
-    private float[] mPointsHighArr;
-    private float[] mPointsMiddleArr;
-    private float[] mPointsLowArr;
+    private float[] mPointsHighLeft;
+    private float[] mPointsMiddleLeft;
+    private float[] mPointsLowLeft;
+
+    private float[] mPointsHighRight;
+    private float[] mPointsMiddleRight;
+    private float[] mPointsLowRight;
 
     /**
      * 记录手指点下X
@@ -457,10 +461,16 @@ public class ScaleView extends View {
             mIndex += mLineInterval;
         }
 
-        //创建装下标的数组
-        mPointsHighArr = new float[mHighLength * 4];
-        mPointsMiddleArr = new float[mMiddleLength * 4];
-        mPointsLowArr = new float[mLowLength * 4];
+        //创建装下标的数组(判断是为了减少内存抖动)
+        if (mPointsHighLeft == null || mPointsHighLeft.length != mHighLength * 4) {
+            mPointsHighLeft = new float[mHighLength * 4];
+        }
+        if (mPointsMiddleLeft == null || mPointsMiddleLeft.length != mMiddleLength * 4) {
+            mPointsMiddleLeft = new float[mMiddleLength * 4];
+        }
+        if (mPointsLowLeft == null || mPointsLowLeft.length != mLowLength * 4) {
+            mPointsLowLeft = new float[mLowLength * 4];
+        }
 
         //重置临时坐标--从左往右
         //求出最左边的点
@@ -484,15 +494,15 @@ public class ScaleView extends View {
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
                         //奇数--确定x
-                        mPointsHighArr[mTypeIndexHigh] = mStarIndex;
+                        mPointsHighLeft[mTypeIndexHigh] = mStarIndex;
                     } else {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsHighArr[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
+                            mPointsHighLeft[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsHighArr[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
+                            mPointsHighLeft[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
                     mTypeIndexHigh++;
@@ -502,15 +512,15 @@ public class ScaleView extends View {
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
                         //奇数--确定x
-                        mPointsMiddleArr[mTypeIndexMiddle] = mStarIndex;
+                        mPointsMiddleLeft[mTypeIndexMiddle] = mStarIndex;
                     } else {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsMiddleArr[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
+                            mPointsMiddleLeft[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsMiddleArr[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
+                            mPointsMiddleLeft[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
                     mTypeIndexMiddle++;
@@ -520,15 +530,15 @@ public class ScaleView extends View {
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
                         //奇数--确定x
-                        mPointsLowArr[mTypeIndexLow] = mStarIndex;
+                        mPointsLowLeft[mTypeIndexLow] = mStarIndex;
                     } else {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsLowArr[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
+                            mPointsLowLeft[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsLowArr[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
+                            mPointsLowLeft[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
                     mTypeIndexLow++;
@@ -543,15 +553,15 @@ public class ScaleView extends View {
         //绘制低刻度线
         mPaint.setColor(ContextCompat.getColor(getContext(), mLowScaleColor));
         mPaint.setStrokeWidth(mLowScaleWidth);
-        mCanvas.drawLines(mPointsLowArr, mPaint);
+        mCanvas.drawLines(mPointsLowLeft, mPaint);
         //绘制中刻度线
         mPaint.setColor(ContextCompat.getColor(getContext(), mMiddleScaleColor));
         mPaint.setStrokeWidth(mMiddleScaleWidth);
-        mCanvas.drawLines(mPointsMiddleArr, mPaint);
+        mCanvas.drawLines(mPointsMiddleLeft, mPaint);
         //绘制高刻度线
         mPaint.setColor(ContextCompat.getColor(getContext(), mHighScaleColor));
         mPaint.setStrokeWidth(mHighScaleWidth);
-        mCanvas.drawLines(mPointsHighArr, mPaint);
+        mCanvas.drawLines(mPointsHighLeft, mPaint);
     }
 
     private void drawRightLine() {
@@ -580,10 +590,16 @@ public class ScaleView extends View {
             mIndex -= mLineInterval;
         }
 
-        //创建装下标的数组
-        mPointsHighArr = new float[mHighLength * 4];
-        mPointsMiddleArr = new float[mMiddleLength * 4];
-        mPointsLowArr = new float[mLowLength * 4];
+        //创建装下标的数组(判断是为了减少内存抖动)
+        if (mPointsHighRight == null || mPointsHighRight.length != mHighLength * 4) {
+            mPointsHighRight = new float[mHighLength * 4];
+        }
+        if (mPointsMiddleRight == null || mPointsMiddleRight.length != mMiddleLength * 4) {
+            mPointsMiddleRight = new float[mMiddleLength * 4];
+        }
+        if (mPointsLowRight == null || mPointsLowRight.length != mLowLength * 4) {
+            mPointsLowRight = new float[mLowLength * 4];
+        }
 
         //重置临时坐标--从右往左
         //求出最右边的点
@@ -607,15 +623,15 @@ public class ScaleView extends View {
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
                         //奇数--确定x
-                        mPointsHighArr[mTypeIndexHigh] = mStarIndex;
+                        mPointsHighRight[mTypeIndexHigh] = mStarIndex;
                     } else {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsHighArr[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
+                            mPointsHighRight[mTypeIndexHigh] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mHighPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsHighArr[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
+                            mPointsHighRight[mTypeIndexHigh] = mPointerMarginTop + getHighPointerMargin(true, mHighPointerMargin);
                         }
                     }
                     mTypeIndexHigh++;
@@ -625,15 +641,15 @@ public class ScaleView extends View {
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
                         //奇数--确定x
-                        mPointsMiddleArr[mTypeIndexMiddle] = mStarIndex;
+                        mPointsMiddleRight[mTypeIndexMiddle] = mStarIndex;
                     } else {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsMiddleArr[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
+                            mPointsMiddleRight[mTypeIndexMiddle] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mMiddlePointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsMiddleArr[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
+                            mPointsMiddleRight[mTypeIndexMiddle] = mPointerMarginTop + getHighPointerMargin(true, mMiddlePointerMargin);
                         }
                     }
                     mTypeIndexMiddle++;
@@ -643,15 +659,15 @@ public class ScaleView extends View {
                 for (int j = 0; j < 4; j++) {
                     if (j % 2 == 0) {
                         //奇数--确定x
-                        mPointsLowArr[mTypeIndexLow] = mStarIndex;
+                        mPointsLowRight[mTypeIndexLow] = mStarIndex;
                     } else {
                         //偶数--确定y
                         if (j == 1) {
                             //y轴起点--下端
-                            mPointsLowArr[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
+                            mPointsLowRight[mTypeIndexLow] = mHeight - mBaseLineMarginBottom - mBaseLineWidth - getHighPointerMargin(false, mLowPointerMargin);
                         } else {
                             //y轴终点--上端
-                            mPointsLowArr[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
+                            mPointsLowRight[mTypeIndexLow] = mPointerMarginTop + getHighPointerMargin(true, mLowPointerMargin);
                         }
                     }
                     mTypeIndexLow++;
@@ -666,15 +682,15 @@ public class ScaleView extends View {
         //绘制低刻度线
         mPaint.setColor(ContextCompat.getColor(getContext(), mLowScaleColor));
         mPaint.setStrokeWidth(mLowScaleWidth);
-        mCanvas.drawLines(mPointsLowArr, mPaint);
+        mCanvas.drawLines(mPointsLowRight, mPaint);
         //绘制中刻度线
         mPaint.setColor(ContextCompat.getColor(getContext(), mMiddleScaleColor));
         mPaint.setStrokeWidth(mMiddleScaleWidth);
-        mCanvas.drawLines(mPointsMiddleArr, mPaint);
+        mCanvas.drawLines(mPointsMiddleRight, mPaint);
         //绘制高刻度线
         mPaint.setColor(ContextCompat.getColor(getContext(), mHighScaleColor));
         mPaint.setStrokeWidth(mHighScaleWidth);
-        mCanvas.drawLines(mPointsHighArr, mPaint);
+        mCanvas.drawLines(mPointsHighRight, mPaint);
     }
 
     /**
@@ -751,10 +767,10 @@ public class ScaleView extends View {
 
     private void onDrawRightNum(float y) {
         //从刻度线数组或取到文字的下标
-        for (int i = 0; i < mPointsHighArr.length; i++) {
+        for (int i = 0; i < mPointsHighRight.length; i++) {
             if (i % 4 == 0) {
-                int mNowIndexValue = getNowIndexValue((int) mPointsHighArr[i]);
-                float x = mPointsHighArr[i];
+                int mNowIndexValue = getNowIndexValue((int) mPointsHighRight[i]);
+                float x = mPointsHighRight[i];
                 mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
             }
         }
@@ -762,10 +778,10 @@ public class ScaleView extends View {
 
     private void onDrawLeftNum(float y) {
         //从刻度线数组或取到文字的下标
-        for (int i = 0; i < mPointsHighArr.length; i++) {
+        for (int i = 0; i < mPointsHighLeft.length; i++) {
             if (i % 4 == 0) {
-                int mNowIndexValue = getNowIndexValue((int) mPointsHighArr[i]);
-                float x = mPointsHighArr[i];
+                int mNowIndexValue = getNowIndexValue((int) mPointsHighLeft[i]);
+                float x = mPointsHighLeft[i];
                 mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleScale), x, y, mPaint);
             }
         }
