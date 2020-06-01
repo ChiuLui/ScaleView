@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
@@ -314,11 +315,11 @@ public class ScaleView extends View {
     private static final int WHAT_PLUS = 1;
     private static final int WHAT_MINUS = 2;
     private static final int WHAT_STOP = 3;
-    public Handler mHandler = new Handler(){
+
+    public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
+        public boolean handleMessage(@NonNull Message message) {
+            switch (message.what) {
                 case WHAT_PLUS:
                     setPlusScale();
                     break;
@@ -332,8 +333,9 @@ public class ScaleView extends View {
                 default:
                     break;
             }
+            return false;
         }
-    };
+    });
 
     public ScaleView(Context context) {
         super(context);
