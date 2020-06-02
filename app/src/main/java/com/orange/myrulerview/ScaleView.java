@@ -118,12 +118,12 @@ public class ScaleView extends View {
     /**
      * 所有元素（除了文字）与  View 左边的距离
      */
-    private int mLeftMarginLeft = 50;
+    private int mLeftMarginLeft = 0;
 
     /**
      * 所有元素（除了文字）与  View 右边的距离
      */
-    private int mRightMarginRight = 50;
+    private int mRightMarginRight = 0;
 
     /**
      * 文字下边距（避免显示不全）
@@ -836,7 +836,7 @@ public class ScaleView extends View {
     private void onDrawCenter(float y) {
         //当中间下标为大刻度时才绘制，否则不绘制
         if (mNowIndex % mHighFrequency == 0) {
-            mCanvas.drawText(String.valueOf(mNowIndex / mScaleRatio), mPointerPosition, y, mPaint);
+            mCanvas.drawText(getShowNum(mNowIndex), mPointerPosition, y, mPaint);
         }
     }
 
@@ -846,7 +846,7 @@ public class ScaleView extends View {
             if (i % 4 == 0) {
                 int mNowIndexValue = getNowIndexValue((int) mPointsHighRight[i]);
                 float x = mPointsHighRight[i];
-                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleRatio), x, y, mPaint);
+                mCanvas.drawText(getShowNum(mNowIndexValue), x, y, mPaint);
             }
         }
     }
@@ -857,9 +857,24 @@ public class ScaleView extends View {
             if (i % 4 == 0) {
                 int mNowIndexValue = getNowIndexValue((int) mPointsHighLeft[i]);
                 float x = mPointsHighLeft[i];
-                mCanvas.drawText(String.valueOf(mNowIndexValue / mScaleRatio), x, y, mPaint);
+                mCanvas.drawText(getShowNum(mNowIndexValue), x, y, mPaint);
             }
         }
+    }
+
+    /**
+     * 最终绘制的数值
+     * @param nowIndex
+     * @return
+     */
+    private String getShowNum(int nowIndex){
+        String numStr = "";
+        if (mScaleRatio == 1) {
+            numStr = String.valueOf(nowIndex);
+        } else {
+            numStr = String.valueOf(nowIndex / mScaleRatio);
+        }
+        return numStr;
     }
 
     /**
