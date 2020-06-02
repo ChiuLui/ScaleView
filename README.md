@@ -6,18 +6,61 @@ ScaleView
 > 🌟适用于Android的刻度尺（标尺）控件。🔥高度自定义🔥内存占用低，纯绘制，不使用动画。
 
 # 目录:
-[1.实现事例](#1)
+[1.使用方式](#1)
 
-[2.自定义属性](#2)
+[2.使用示例](#2)
 
-[3.方法](#3)
+[3.自定义属性](#3)
 
-[4.监听](#4)
+[4.方法](#4)
+
+[5.监听](#5)
 
 
-# <span id = "1">**1.实现事例**</span>
 
-### 默认样式:
+# <span id = "1">**1.使用方式**</span>
+-------------
+
+### 使用方式一：Maven方式：
+
+##### Step 1. 在 project 层级的 build.gradle 中，添加仓库地址:
+
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+##### Step 2. 在主 module 的 build.gradle 中添加依赖：
+
+```
+implementation 'com.chiului:scaleview:1.0.0'
+```
+
+### 使用方式二：Module 方式
+
+##### Step 1. 下载源码
+
+##### Step 2. 引入 Module
+
+> File --> New --> import Module
+
+
+##### Step 3. 在主 Module 中添加 Module 依赖
+
+```
+implementation project(path: ':scaleview')
+```
+
+
+# <span id = "2">**2.使用示例**</span>
+-------------
+
+
+### 仅改变各种颜色样式:
 
 ![Demo效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_0.gif)
 
@@ -26,7 +69,13 @@ ScaleView
 <ScaleView
         android:id="@+id/scaleView"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        app:pointer_color="#03DAC5"
+        app:num_color="#6200EE"
+        app:low_scale_color="#DEB8B1"
+        app:middle_scale_color="#3379F6"
+        app:high_scale_color="#EA4335"
+        app:baseLine_color="#3700B3">
 
 
 ```
@@ -52,11 +101,6 @@ ScaleView
         app:font_top="false"
         app:show_baseLine="false"
         app:pointer_top_protruding="true"
-        app:high_scale_color="#C7C7C7"
-        app:middle_scale_color="#C7C7C7"
-        app:low_scale_color="#C7C7C7"
-        app:num_color="#01C5C6"
-        app:pointer_color="#FF8282"
         app:low_scale_width="3"
         app:middle_scale_width="3"
         app:high_scale_width="3"
@@ -88,7 +132,12 @@ ScaleView
         app:pointer_top="false"
         app:scale_position="center"
         app:font_top="false"
-        app:pointer_margin_top="0"/>
+        app:pointer_margin_top="0"
+        app:pointer_color="#03DAC5"
+        app:num_color="#6200EE"
+        app:low_scale_color="#DEB8B1"
+        app:middle_scale_color="#3379F6"
+        app:high_scale_color="#EA4335"/>
 
 
 ```
@@ -113,14 +162,21 @@ ScaleView
         app:scale_position="center"
         app:scale_ratio="1"
         app:baseLine_margin_bottom="0"
-        app:show_pointer_head="false" />
+        app:show_pointer_head="false" 
+        app:pointer_color="#03DAC5"
+        app:num_color="#6200EE"
+        app:low_scale_color="#DEB8B1"
+        app:middle_scale_color="#3379F6"
+        app:high_scale_color="#EA4335"/>
 
 
 ```
 
 
 
-# <span id = "2">**2.自定义属性**</span>
+# <span id = "3">**3.自定义属性**</span>
+-------------
+
 
 |属性|作用|默认值|
 |:-----|:-----|:----:|
@@ -151,12 +207,12 @@ ScaleView
 | name="high_pointer_margin" format="integer" | 高刻度的边距（控制长度） | 50 |
 | name="middle_frequency" format="integer" | 中刻度线频率 | 5 |
 | name="high_frequency" format="integer" | 高刻度线频率 | 10 |
-| name="baseLine_color" format="color" | 底线颜色 | R.color.colorPrimaryDark |
-| name="high_scale_color" format="color" | 高刻度线颜色 | R.color.colorEA4335 |
-| name="middle_scale_color" format="color" | 中刻度线颜色 | R.color.color3379F6 |
-| name="low_scale_color" format="color" | 低刻度线颜色 | R.color.colorDEB8B1 |
-| name="num_color" format="color" | 刻度数值颜色 | R.color.colorPrimary |
-| name="pointer_color" format="color" | 指针颜色 | R.color.colorAccent |
+| name="baseLine_color" format="color" | 底线颜色 | #C7C7C7 |
+| name="high_scale_color" format="color" | 高刻度线颜色 | #C7C7C7 |
+| name="middle_scale_color" format="color" | 中刻度线颜色 | #C7C7C7 |
+| name="low_scale_color" format="color" | 低刻度线颜色 | #C7C7C7 |
+| name="num_color" format="color" | 刻度数值颜色 | #01C5C6 |
+| name="pointer_color" format="color" | 指针颜色 | #FF8282 |
 | name="font_top" format="boolean" | 字体是否要绘制在上面 | true |
 | name="scale_ratio" format="float" | 显示的刻度数字与刻度比例（比如要显示小数的情况）：刻度 / 比例 = 显示刻度 | 10 |
 | name="sliding_ratio" format="float" | 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态 | 0.5 |
@@ -167,7 +223,9 @@ ScaleView
 | name="scale_position" format="enum" | 刻度线对齐：top：上对齐，center：居中对齐，bottom：下对齐 | bottom |
 
 
-# <span id = "3">**3.方法**</span>
+# <span id = "4">**4.方法**</span>
+-------------
+
 
 |方法|作用|
 |:-----|:-----|
@@ -180,7 +238,9 @@ ScaleView
 
 
 
-# <span id = "4">**4.监听**</span>
+# <span id = "5">**5.监听**</span>
+-------------
+
 
 |监听|作用|
 |:-----|:-----|
