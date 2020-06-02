@@ -72,7 +72,7 @@ ScaleView
 
 ### 显示负数、向下视图、隐藏底线样式:
 
-![某项目内效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_2.gif)
+![显示负数、向下视图、隐藏底线样式](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_2.gif)
 
 
 ```
@@ -97,7 +97,7 @@ ScaleView
 
 ### 显示整数、居中视图、隐藏指针头样式:
 
-![某项目内效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_3.gif)
+![显示整数、居中视图、隐藏指针头样式](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_3.gif)
 
 
 ```

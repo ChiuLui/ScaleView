@@ -1,4 +1,4 @@
-package com.orange.myrulerview;
+package com.orange.scrollview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -163,32 +163,32 @@ public class ScaleView extends View {
     /**
      * 底线颜色
      */
-    private int mBaseLineColor = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
+    private int mBaseLineColor = ContextCompat.getColor(getContext(), R.color.colorScale);
 
     /**
      * 高刻度线颜色
      */
-    private int mHighScaleColor = ContextCompat.getColor(getContext(), R.color.colorEA4335);
+    private int mHighScaleColor = ContextCompat.getColor(getContext(), R.color.colorScale);
 
     /**
      * 中刻度线颜色
      */
-    private int mMiddleScaleColor = ContextCompat.getColor(getContext(), R.color.color3379F6);
+    private int mMiddleScaleColor = ContextCompat.getColor(getContext(), R.color.colorScale);
 
     /**
      * 低刻度线颜色
      */
-    private int mLowScaleColor = ContextCompat.getColor(getContext(), R.color.colorDEB8B1);
+    private int mLowScaleColor = ContextCompat.getColor(getContext(), R.color.colorScale);
 
     /**
      * 刻度数值颜色
      */
-    private int mNumColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
+    private int mNumColor = ContextCompat.getColor(getContext(), R.color.colorText);
 
     /**
      * 指针颜色
      */
-    private int mPointerColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
+    private int mPointerColor = ContextCompat.getColor(getContext(), R.color.colorPointer);
 
     /**
      * 字体是否要绘制在上面
