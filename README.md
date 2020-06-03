@@ -73,16 +73,16 @@ implementation project(path: ':scaleview')
 
 ```
 
-	<com.chiului.ScaleView
-        android:id="@+id/scaleView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:pointer_color="#03DAC5"
-        app:num_color="#6200EE"
-        app:low_scale_color="#DEB8B1"
-        app:middle_scale_color="#3379F6"
-        app:high_scale_color="#EA4335"
-        app:baseLine_color="#3700B3">
+<com.chiului.ScaleView
+		android:id="@+id/scaleView"
+		android:layout_width="match_parent"
+		android:layout_height="100dp"
+		app:pointer_color="#03DAC5"
+		app:num_color="#6200EE"
+		app:low_scale_color="#DEB8B1"
+		app:middle_scale_color="#3379F6"
+		app:high_scale_color="#EA4335"
+		app:baseLine_color="#3700B3"/>
 
 
 ```
@@ -95,26 +95,26 @@ implementation project(path: ':scaleview')
 
 ```
 
-	<com.chiului.ScaleView
-        android:id="@+id/scaleView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:min_index="0"
-        app:max_index="300"
-        app:now_index="50"
-        app:show_pointer_head="false"
-        app:scale_position="top"
-        app:pointer_margin_top="30"
-        app:font_top="false"
-        app:show_baseLine="false"
-        app:pointer_top_protruding="true"
-        app:low_scale_width="3"
-        app:middle_scale_width="3"
-        app:high_scale_width="3"
-        app:pointer_width="3"
-        app:low_pointer_margin="150"
-        app:middle_pointer_margin="100"
-        app:high_pointer_margin="50" />
+<com.chiului.ScaleView
+       android:id="@+id/scaleView"
+       android:layout_width="match_parent"
+       android:layout_height="100dp"
+       app:min_index="0"
+       app:max_index="300"
+       app:now_index="50"
+       app:show_pointer_head="false"
+       app:scale_position="top"
+       app:pointer_margin_top="30"
+       app:font_top="false"
+       app:show_baseLine="false"
+       app:pointer_top_protruding="true"
+       app:low_scale_width="3"
+       app:middle_scale_width="3"
+       app:high_scale_width="3"
+       app:pointer_width="3"
+       app:low_pointer_margin="150"
+       app:middle_pointer_margin="100"
+       app:high_pointer_margin="50" />
 
 
 ```
@@ -128,23 +128,23 @@ implementation project(path: ':scaleview')
 
 ```
 
-	<com.chiului.ScaleView
-        android:id="@+id/scaleView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:min_index="-100"
-        app:max_index="100"
-        app:now_index="0"
-        app:show_baseLine="false"
-        app:pointer_top="false"
-        app:scale_position="center"
-        app:font_top="false"
-        app:pointer_margin_top="0"
-        app:pointer_color="#03DAC5"
-        app:num_color="#6200EE"
-        app:low_scale_color="#DEB8B1"
-        app:middle_scale_color="#3379F6"
-        app:high_scale_color="#EA4335"/>
+<com.chiului.ScaleView
+       android:id="@+id/scaleView"
+       android:layout_width="match_parent"
+       android:layout_height="150dp"
+       app:min_index="-100"
+       app:max_index="100"
+       app:now_index="0"
+       app:show_baseLine="false"
+       app:pointer_top="false"
+       app:scale_position="center"
+       app:font_top="false"
+       app:pointer_margin_top="0"
+       app:pointer_color="#03DAC5"
+       app:num_color="#6200EE"
+       app:low_scale_color="#DEB8B1"
+       app:middle_scale_color="#3379F6"
+       app:high_scale_color="#EA4335"/>
 
 
 ```
@@ -158,23 +158,23 @@ implementation project(path: ':scaleview')
 
 ```
 
-	<com.chiului.ScaleView
-        android:id="@+id/scaleView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:min_index="-100"
-        app:max_index="100"
-        app:now_index="0"
-        app:show_baseLine="false"
-        app:scale_position="center"
-        app:scale_ratio="1"
-        app:baseLine_margin_bottom="0"
-        app:show_pointer_head="false" 
-        app:pointer_color="#03DAC5"
-        app:num_color="#6200EE"
-        app:low_scale_color="#DEB8B1"
-        app:middle_scale_color="#3379F6"
-        app:high_scale_color="#EA4335"/>
+<com.chiului.ScaleView
+       android:id="@+id/scaleView"
+       android:layout_width="match_parent"
+       android:layout_height="150dp"
+       app:min_index="-100"
+       app:max_index="100"
+       app:now_index="0"
+       app:show_baseLine="false"
+       app:scale_position="center"
+       app:scale_ratio="1"
+       app:baseLine_margin_bottom="0"
+       app:show_pointer_head="false" 
+       app:pointer_color="#03DAC5"
+       app:num_color="#6200EE"
+       app:low_scale_color="#DEB8B1"
+       app:middle_scale_color="#3379F6"
+       app:high_scale_color="#EA4335"/>
 
 
 ```
