@@ -1,4 +1,4 @@
-package com.orange.myrulerview;
+package com.chiului.scrollview;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.orange.myrulerview", appContext.getPackageName());
+        assertEquals("com.orange.scrollview.test", appContext.getPackageName());
     }
 }

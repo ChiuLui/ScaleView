@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.orange.myrulerview.MyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chiului.myrulerview.MyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
 
             </LinearLayout>
 
-    <com.orange.scrollview.ScaleView
+    <com.chiului.scrollview.ScaleView
         android:id="@+id/scaleView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -95,4 +95,4 @@
 
     </LinearLayout>
 
-</com.orange.myrulerview.MyScrollView>
+</com.chiului.myrulerview.MyScrollView>

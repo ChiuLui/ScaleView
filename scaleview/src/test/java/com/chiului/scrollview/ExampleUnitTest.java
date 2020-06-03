@@ -1,4 +1,4 @@
-package com.orange.myrulerview;
+package com.chiului.scrollview;
 
 import org.junit.Test;
 

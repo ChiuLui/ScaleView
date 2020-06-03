@@ -1,4 +1,4 @@
-package com.orange.myrulerview;
+package com.chiului.myrulerview;
 
 import android.content.Context;
 import android.util.AttributeSet;

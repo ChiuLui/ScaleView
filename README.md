@@ -29,15 +29,22 @@ ScaleView
 allprojects {
     repositories {
         ...
-        maven { url 'https://jitpack.io' }
+        jcenter()
     }
 }
 ```
 
 ##### Step 2. 在主 module 的 build.gradle 中添加依赖：
 
+- 最新版本 
+
+[ ![Download](https://api.bintray.com/packages/chiului/ScaleView/scaleview/images/download.svg?version=1.1.0) ](https://bintray.com/chiului/ScaleView/scaleview/1.1.0/link)
+
+
+- 把👆的版本号替换👇代码的 `$version$`
+
 ```
-implementation 'com.chiului:scaleview:1.0.0'
+implementation 'com.chiului:scaleview:$version$'
 ```
 
 ### 使用方式二：Module 方式
@@ -181,8 +188,8 @@ implementation project(path: ':scaleview')
 |属性|作用|默认值|
 |:-----|:-----|:----:|
 | name="min_index" format="integer" | 最小刻度 | 0 |
-| name="max_index" format="integer" | 最大刻度 | 300 |
-| name="now_index" format="integer" | 当前刻度 | 150 |
+| name="max_index" format="integer" | 最大刻度 | 100 |
+| name="now_index" format="integer" | 当前刻度 | 50 |
 | name="scale_value" format="integer" | 每格刻度的值 | 1 |
 | name="text_size" format="float" | 刻度数值的字体大小 | 50f |
 | name="pointer_width" format="float" | 指针线宽度 | 3f |

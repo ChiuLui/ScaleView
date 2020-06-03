@@ -1,4 +1,4 @@
-package com.orange.scrollview;
+package com.chiului.scrollview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -33,12 +33,12 @@ public class ScaleView extends View {
     /**
      * 最大刻度
      */
-    private int mMaxIndex = 300;
+    private int mMaxIndex = 100;
 
     /**
      * 当前刻度
      */
-    private int mNowIndex = 150;
+    private int mNowIndex = 50;
 
     /**
      * 每格刻度的值

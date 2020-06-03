@@ -1,4 +1,4 @@
-package com.orange.myrulerview;
+package com.chiului.myrulerview;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.orange.scrollview.ScaleView;
+import com.chiului.scrollview.ScaleView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
