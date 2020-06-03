@@ -38,7 +38,7 @@ allprojects {
 
 - 最新版本 
 
-[ ![Download](https://api.bintray.com/packages/chiului/ScaleView/scaleview/images/download.svg?version=1.1.0) ](https://bintray.com/chiului/ScaleView/scaleview/1.1.0/link)
+[ ![Download](https://api.bintray.com/packages/chiului/ScaleView/scaleview/images/download.svg?version=1.1.1) ](https://bintray.com/chiului/ScaleView/scaleview/1.1.1/link)
 
 
 - 把👆的版本号替换👇代码的 `$version$`
@@ -73,7 +73,7 @@ implementation project(path: ':scaleview')
 
 ```
 
-<ScaleView
+	<com.chiului.ScaleView
         android:id="@+id/scaleView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -95,7 +95,7 @@ implementation project(path: ':scaleview')
 
 ```
 
-<ScaleView
+	<com.chiului.ScaleView
         android:id="@+id/scaleView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -128,7 +128,7 @@ implementation project(path: ':scaleview')
 
 ```
 
-<ScaleView
+	<com.chiului.ScaleView
         android:id="@+id/scaleView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -158,7 +158,7 @@ implementation project(path: ':scaleview')
 
 ```
 
-<ScaleView
+	<com.chiului.ScaleView
         android:id="@+id/scaleView"
         android:layout_width="match_parent"
         android:layout_height="150dp"

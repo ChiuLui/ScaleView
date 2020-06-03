@@ -1,4 +1,4 @@
-package com.chiului.scrollview;
+package com.chiului;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,6 +16,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
+import com.chiului.scrollview.R;
 
 /**
  * 刻度尺视图$

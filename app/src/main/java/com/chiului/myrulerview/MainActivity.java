@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.chiului.scrollview.ScaleView;
+import com.chiului.ScaleView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
