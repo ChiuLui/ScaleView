@@ -65,9 +65,12 @@ implementation project(path: ':scaleview')
 -------------
 
 
-### 仅改变各种颜色样式:
+| [示例1](#2.1) | [示例2](#2.2) | [示例3](#2.3) | [示例4](#2.4) |
+| :-: | :-: | :-: | :-: |
+|![](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_0.gif)|![](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_1.gif) | ![](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_2.gif) | ![](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_3.gif) |
 
-![Demo效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_0.gif)
+### <span id = "2.1">**仅改变各种颜色样式:**</span>
+
 
 ```
 
@@ -86,10 +89,8 @@ implementation project(path: ':scaleview')
 ```
 
 
+### <span id = "2.2">**某项目内样式:**</span>
 
-### 某项目内样式:
-
-![某项目内效果](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_1.gif)
 
 ```
 
@@ -105,7 +106,7 @@ implementation project(path: ':scaleview')
        app:pointer_margin_top="30"
        app:font_top="false"
        app:show_baseLine="false"
-       app:pointer_top_protruding="true"
+       app:pointer_top_protruding="
        app:low_scale_width="3"
        app:middle_scale_width="3"
        app:high_scale_width="3"
@@ -118,10 +119,7 @@ implementation project(path: ':scaleview')
 ```
 
 
-
-### 显示负数、向下视图、隐藏底线样式:
-
-![显示负数、向下视图、隐藏底线样式](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_2.gif)
+### <span id = "2.3">**显示负数、向下视图、隐藏底线样式:**</span>
 
 
 ```
@@ -148,10 +146,8 @@ implementation project(path: ':scaleview')
 ```
 
 
+### <span id = "2.4">**显示整数、居中视图、隐藏指针头样式:**</span>
 
-### 显示整数、居中视图、隐藏指针头样式:
-
-![显示整数、居中视图、隐藏指针头样式](https://github.com/ChiuLui/ScaleView/blob/master/image/RulerView_3.gif)
 
 
 ```
@@ -176,7 +172,6 @@ implementation project(path: ':scaleview')
 
 
 ```
-
 
 
 # <span id = "3">**3.自定义属性**</span>
