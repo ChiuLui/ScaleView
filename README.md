@@ -38,13 +38,11 @@ allprojects {
 
 - 最新版本 
 
-[ ![Download](https://api.bintray.com/packages/chiului/ScaleView/scaleview/images/download.svg?version=1.1.1) ](https://bintray.com/chiului/ScaleView/scaleview/1.1.1/link)
+[ ![Download](https://api.bintray.com/packages/chiului/Library/scaleview/images/download.svg?version=1.1.1) ](https://bintray.com/chiului/Library/scaleview/1.1.1/link)
 
-
-- 把👆的版本号替换👇代码的 `$version$`
 
 ```
-implementation 'com.chiului:scaleview:$version$'
+implementation 'com.chiului.library:scaleview:1.1.1'
 ```
 
 ### 使用方式二：Module 方式
