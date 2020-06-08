@@ -214,7 +214,7 @@ implementation project(path: ':scaleview')
 | name="num_color" format="color" | 刻度数值颜色 | #01C5C6 |
 | name="pointer_color" format="color" | 指针颜色 | #FF8282 |
 | name="font_top" format="boolean" | 字体是否要绘制在上面 | true |
-| name="scale_ratio" format="float" | 显示的刻度数字与刻度比例（比如要显示小数的情况）：刻度 / 比例 = 显示刻度 | 10 |
+| name="scale_ratio" format="float" | 显示的刻度数字与刻度比例（比如要显示小数的情况, 显示整数则设为 1）：刻度 / 比例 = 显示刻度 | 10 |
 | name="sliding_ratio" format="float" | 滑动距离比例（用于调整滑动速度）：刻度间距离 * 滑动速度比例 = 每滑动多少距离改变状态 | 0.5 |
 | name="show_baseLine" format="boolean" | 是否显示底线 | true |
 | name="units" format="float" | 惯性滑动速率时间单位, 多少毫秒时间单位内运动了多少个像素 | 500 |
